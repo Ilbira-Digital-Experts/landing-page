@@ -1,0 +1,55 @@
+---
+import { type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const content = {
+  es: {
+    badge: 'Estudio de arquitectura de agentes de IA',
+    headline: 'Otra empresa que gana dinero vendiendo IA',
+    sub: 'Te vamos a cambiar la vida implementando IA sobre el conocimiento de tu empresa.',
+    cta: 'Reservar auditoría AgentOps',
+    secondary: 'Ver qué hacemos',
+  },
+  en: {
+    badge: 'AI agent architecture studio',
+    headline: 'Another company making money selling AI',
+    sub: "We audit, implement, and operate AI agents with full observability, cost under control from euro one, and a technical decision trail you can audit at any time.",
+    cta: 'Book AgentOps Audit',
+    secondary: 'See what we do',
+  },
+}[lang];
+---
+
+<section class="relative hero-gradient overflow-hidden pt-32 pb-24 lg:pb-32" id="hero">
+  <div class="section-container relative z-10 text-center">
+
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-white/70 text-xs font-medium text-text-secondary mb-8 shadow-sm">
+      {content.badge}
+    </div>
+
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary leading-[1.1] mb-6 max-w-3xl mx-auto">
+      {content.headline}
+    </h1>
+
+    <p class="text-lg md:text-xl text-text-secondary leading-relaxed mb-10 max-w-xl mx-auto">
+      {content.sub}
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <button data-cta="main" class="btn-primary px-6 py-3 text-base">
+        {content.cta}
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <a href={`/${lang}/que-hacemos`} class="btn-ghost px-6 py-3 text-base">
+        {content.secondary}
+      </a>
+    </div>
+  </div>
+</section>

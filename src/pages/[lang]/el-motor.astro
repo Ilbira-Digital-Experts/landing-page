@@ -1,0 +1,38 @@
+---
+import { langStaticPaths } from '../../i18n/paths';
+import { type Lang } from '../../i18n/ui';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import SlideInForm from '../../components/SlideInForm.astro';
+import CoreShowcase from '../../components/CoreShowcase.astro';
+import CoreFlow from '../../components/CoreFlow.astro';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const lang = Astro.params.lang as Lang;
+
+const meta = {
+  es: {
+    title: 'El motor — Ilbira Core',
+    description: 'Ilbira Core es el motor interno de observabilidad, coste y trazabilidad que usamos para arquitecturar agentes. Vista previa, no a la venta.',
+  },
+  en: {
+    title: 'The engine — Ilbira Core',
+    description: 'Ilbira Core is the internal observability, cost, and traceability engine we use to architect agents. Preview only, not for sale.',
+  },
+}[lang];
+---
+
+<Layout lang={lang} title={meta.title} description={meta.description}>
+  <SlideInForm lang={lang} />
+  <Navbar lang={lang} />
+  <main>
+    <CoreShowcase lang={lang} />
+    <CoreFlow lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</Layout>

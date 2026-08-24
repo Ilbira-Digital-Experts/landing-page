@@ -1,0 +1,131 @@
+---
+import { type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const content = {
+  es: {
+    label: 'Cómo lo hacemos',
+    heading: 'Un proyecto estructurado. Sin caja negra en ningún momento.',
+    sub: 'No es una prueba gratuita. Es un proceso con metodología, entregables y resultados medibles en cada fase.',
+    phases: [
+      {
+        weeks: 'Fase 1',
+        title: 'Instalación segura',
+        body: 'Conexión segura a tu entorno. Sin acceso a producción. Sin modificar nada en tus sistemas actuales hasta que ambos estemos de acuerdo en el alcance.',
+        items: ['Conector de solo lectura', 'Registro de auditoría de accesos', 'Revisión conjunta del alcance'],
+      },
+      {
+        weeks: 'Fase 2',
+        title: 'Ejecución en paralelo',
+        body: 'El agente ejecuta en paralelo con tu proceso actual. Aprende mientras tú comparas resultados. Ninguna decisión del agente tiene efecto real hasta que tú lo valides.',
+        items: ['Cero efecto en producción', 'Comparativa diaria de resultados', 'Ajuste iterativo del criterio del agente'],
+      },
+      {
+        weeks: 'Fase 3',
+        title: 'Auditoría de resultados y entrega',
+        body: 'Revisión completa de los datos: tasa de automatización, coste por transacción, tiempo ahorrado, tasa de escalado. Sin letra pequeña, y con la arquitectura documentada y en tu infraestructura.',
+        items: ['Informe de automatización', 'Coste por transacción real', 'Traspaso de la arquitectura documentada'],
+      },
+    ],
+    conditionTitle: 'Condición de entrada — te lo decimos antes de empezar',
+    conditionBody: 'Necesitamos un interlocutor técnico en tu equipo (CTO, IT Manager o similar) y datos estructurados del proceso a implementar. Si estas condiciones no se cumplen, te lo decimos antes de empezar y no perdemos el tiempo ninguno de los dos.',
+    ctaHint: 'Empezamos siempre por la Auditoría AgentOps.',
+  },
+  en: {
+    label: 'How we work',
+    heading: 'A structured engagement. No black box at any point.',
+    sub: "This isn't a free trial. It's a process with methodology, deliverables, and measurable results at every phase.",
+    phases: [
+      {
+        weeks: 'Phase 1',
+        title: 'Secure setup',
+        body: "Secure connection to your environment. No production access. Nothing in your current systems changes until we both agree on scope.",
+        items: ['Read-only connector', 'Access audit log', 'Joint scope review'],
+      },
+      {
+        weeks: 'Phase 2',
+        title: 'Parallel execution',
+        body: "The agent runs in parallel with your current process. It learns while you compare results. No agent decision has real effect until you validate it.",
+        items: ['Zero production impact', 'Daily results comparison', 'Iterative tuning of the agent’s judgment'],
+      },
+      {
+        weeks: 'Phase 3',
+        title: 'Results audit and handoff',
+        body: "Full review of the data: automation rate, cost per transaction, time saved, escalation rate. No fine print, and the architecture is documented and handed over into your infrastructure.",
+        items: ['Automation report', 'Real cost per transaction', 'Documented architecture handoff'],
+      },
+    ],
+    conditionTitle: "Entry condition — we tell you upfront",
+    conditionBody: "We need a technical counterpart on your team (CTO, IT Manager or similar) and structured data about the process to implement. If these conditions aren't met, we tell you before starting so neither of us wastes time.",
+    ctaHint: 'We always start with the AgentOps Audit.',
+  },
+}[lang];
+---
+
+<section class="py-24 lg:py-32" id="implementacion" aria-labelledby="implementacion-heading">
+  <div class="section-container">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <p class="section-label">{content.label}</p>
+      <h2 id="implementacion-heading" class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-4">
+        {content.heading}
+      </h2>
+      <p class="text-text-secondary text-lg">
+        {content.sub}
+      </p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="grid md:grid-cols-3 gap-5 mb-14">
+      {content.phases.map((phase, i) => (
+        <article class="card flex flex-col gap-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-accent">{phase.weeks}</span>
+            <span class="text-xs font-mono text-text-muted">{`0${i + 1}`}</span>
+          </div>
+          <h3 class="text-base font-semibold text-text-primary">{phase.title}</h3>
+          <p class="text-sm text-text-secondary leading-relaxed flex-1">{phase.body}</p>
+          <ul class="flex flex-col gap-2 pt-3 border-t border-border">
+            {phase.items.map(item => (
+              <li class="flex items-start gap-2 text-xs text-text-muted">
+                <svg class="w-3.5 h-3.5 text-success flex-shrink-0 mt-0.5" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M2.5 7l3.5 3.5 5.5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <!-- Conditions (honesty block) -->
+    <div class="rounded-xl border border-border-bright bg-bg-elevated p-7 mb-12">
+      <p class="text-sm font-semibold text-text-primary mb-3 flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-accent" aria-hidden="true">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 5v3.5M8 10.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        {content.conditionTitle}
+      </p>
+      <p class="text-sm text-text-secondary leading-relaxed">
+        {content.conditionBody}
+      </p>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center">
+      <button
+        class="btn-primary px-8 py-3.5 text-base"
+        data-cta="main"
+      >
+        {lang === 'en' ? 'Book AgentOps Audit' : 'Reservar auditoría AgentOps'}
+      </button>
+      <p class="text-xs text-text-muted mt-3">{content.ctaHint}</p>
+    </div>
+  </div>
+</section>

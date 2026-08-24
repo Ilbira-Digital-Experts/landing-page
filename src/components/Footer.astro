@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import { useUI, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useUI(lang);
+---
+
+<footer class="border-t border-border py-12 bg-bg-secondary" role="contentinfo">
+  <div class="section-container">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+
+      <!-- Logo + tagline -->
+      <div class="flex flex-col gap-3">
+        <Image src={logo} alt="Ilbira Digital Experts" class="h-8 w-auto" widths={[100, 200]} />
+        <p class="text-sm text-text-muted max-w-xs leading-relaxed">
+          {t.footerTagline}
+        </p>
+      </div>
+
+      <!-- Links -->
+      <nav class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6" aria-label="Footer navigation">
+        <a
+          href="mailto:hola@ilbirade.com"
+          class="text-sm text-text-muted hover:text-text-primary transition-colors"
+        >
+          hola@ilbirade.com
+        </a>
+        <a
+          href={`/${lang}/privacidad`}
+          class="text-sm text-text-muted hover:text-text-primary transition-colors"
+        >
+          {t.privacyLink}
+        </a>
+        <a
+          href="https://linkedin.com/company/ilbira"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm text-text-muted hover:text-text-primary transition-colors flex items-center gap-1.5"
+          aria-label="Ilbira en LinkedIn (abre en nueva pestaña)"
+        >
+          LinkedIn
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </nav>
+    </div>
+
+    <div class="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <p class="text-xs text-text-muted">
+        © {new Date().getFullYear()} Ilbira. {t.footerRights}
+      </p>
+      <p class="text-xs font-mono text-text-muted">
+        ilbirade.com — {t.footerLocation}
+      </p>
+    </div>
+  </div>
+</footer>

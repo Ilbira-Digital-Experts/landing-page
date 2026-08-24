@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import { langStaticPaths } from '../../../i18n/paths';
+import { useUI, type Lang } from '../../../i18n/ui';
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import SlideInForm from '../../../components/SlideInForm.astro';
+import '../../../styles/global.css';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useUI(lang);
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === lang)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
+
+const meta = {
+  es: {
+    title: 'Recursos — Ilbira',
+    description: 'Piezas técnicas sobre arquitectura de agentes de IA, observabilidad y control de coste.',
+    heading: 'Recursos',
+  },
+  en: {
+    title: 'Resources — Ilbira',
+    description: 'Technical writing on AI agent architecture, observability, and cost control.',
+    heading: 'Resources',
+  },
+}[lang];
+---
+
+<Layout lang={lang} title={meta.title} description={meta.description}>
+  <SlideInForm lang={lang} />
+  <Navbar lang={lang} />
+  <main class="section-container pt-40 pb-24">
+    <h1 class="text-3xl font-semibold text-text-primary mb-10">{meta.heading}</h1>
+
+    {posts.length === 0 && (
+      <p class="text-text-muted">{t.noPosts}</p>
+    )}
+
+    <ul class="flex flex-col gap-8">
+      {posts.map((post) => (
+        <li>
+          <a href={`/${lang}/recursos/${post.data.slug}`} class="group block">
+            <h2 class="text-xl font-semibold text-text-primary group-hover:underline">
+              {post.data.title}
+            </h2>
+            <p class="text-sm text-text-muted mt-1">{post.data.description}</p>
+            <time datetime={post.data.publishedAt.toISOString()} class="text-xs font-mono text-text-muted mt-2 block">
+              {post.data.publishedAt.toLocaleDateString(lang === 'en' ? 'en-US' : 'es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+  <Footer lang={lang} />
+</Layout>

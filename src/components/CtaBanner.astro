@@ -1,0 +1,37 @@
+---
+import { useUI, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  heading?: string;
+  sub?: string;
+}
+
+const { lang, heading, sub } = Astro.props;
+const t = useUI(lang);
+
+const defaults = {
+  es: {
+    heading: '¿Empezamos por saber dónde estás?',
+    sub: 'La Auditoría AgentOps es el punto de entrada: un diagnóstico corto, sin compromiso, con hallazgos concretos.',
+  },
+  en: {
+    heading: "Let's start by seeing where you stand.",
+    sub: 'The AgentOps Audit is the entry point: a short, no-obligation diagnostic with concrete findings.',
+  },
+}[lang];
+---
+
+<section class="py-20 lg:py-28 bg-bg-elevated border-t border-border" aria-labelledby="cta-heading">
+  <div class="section-container text-center max-w-2xl mx-auto">
+    <h2 id="cta-heading" class="text-2xl md:text-3xl font-bold tracking-tight text-text-primary mb-4">
+      {heading ?? defaults.heading}
+    </h2>
+    <p class="text-text-secondary text-lg mb-8">
+      {sub ?? defaults.sub}
+    </p>
+    <button data-cta="main" class="btn-primary px-8 py-3.5 text-base">
+      {t.cta}
+    </button>
+  </div>
+</section>

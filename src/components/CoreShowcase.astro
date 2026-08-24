@@ -1,0 +1,225 @@
+---
+import { type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const content = {
+  es: {
+    badge: 'Ilbira Core',
+    badgeTag: 'En desarrollo',
+    headline: 'El motor que usamos para arquitecturar tus agentes.',
+    sub: 'Ilbira Core es el motor interno de observabilidad, coste y trazabilidad que construimos para nuestros propios proyectos. No se vende como producto — esto es una vista previa de cómo funciona por dentro.',
+    ctaLabel: 'Quiero más información',
+    secondaryLabel: 'Ver cómo funciona',
+    sidebarLabels: { dashboard: 'Dashboard', procesos: 'Procesos', trabajadores: 'Agentes', auditoria: 'Auditoría', costes: 'Costes' },
+    costToday: 'Coste hoy',
+    perTransaction: '/ transacción',
+    headerTitle: 'Validación de facturas',
+    headerSub: '3 agentes activos · actualizado hace 2 min',
+    active: 'Activo',
+    stats: { automation: 'Automatización', processedToday: 'Procesadas hoy', escalated: 'escaladas a humano', avgConfidence: 'Confianza media', vsYesterday: '↑ +3% vs ayer' },
+    logTitle: 'Últimas decisiones',
+    logRows: [
+      { id: 'F-2851', desc: 'Factura aprobada automáticamente', amount: '€4.230', status: 'success', time: 'hace 2 min' },
+      { id: 'F-2850', desc: 'Factura aprobada automáticamente', amount: '€1.890', status: 'success', time: 'hace 5 min' },
+      { id: 'F-2849', desc: 'Escalada — importe fuera de umbral', amount: '€18.400', status: 'warning', time: 'hace 8 min' },
+    ],
+  },
+  en: {
+    badge: 'Ilbira Core',
+    badgeTag: 'In development',
+    headline: "The engine we use to architect your agents.",
+    sub: "Ilbira Core is the internal observability, cost, and traceability engine we built for our own projects. It isn't sold as a product — this is a preview of how it works under the hood.",
+    ctaLabel: 'Request more info',
+    secondaryLabel: 'See how it works',
+    sidebarLabels: { dashboard: 'Dashboard', procesos: 'Processes', trabajadores: 'Agents', auditoria: 'Audit', costes: 'Costs' },
+    costToday: 'Cost today',
+    perTransaction: '/ transaction',
+    headerTitle: 'Invoice validation',
+    headerSub: '3 active agents · updated 2 min ago',
+    active: 'Active',
+    stats: { automation: 'Automation', processedToday: 'Processed today', escalated: 'escalated to human', avgConfidence: 'Avg. confidence', vsYesterday: '↑ +3% vs yesterday' },
+    logTitle: 'Latest decisions',
+    logRows: [
+      { id: 'F-2851', desc: 'Invoice auto-approved', amount: '€4,230', status: 'success', time: '2 min ago' },
+      { id: 'F-2850', desc: 'Invoice auto-approved', amount: '€1,890', status: 'success', time: '5 min ago' },
+      { id: 'F-2849', desc: 'Escalated — amount outside threshold', amount: '€18,400', status: 'warning', time: '8 min ago' },
+    ],
+  },
+}[lang];
+---
+
+<section class="relative hero-gradient overflow-hidden pt-32 pb-0" id="hero">
+
+  <!-- Content centrado -->
+  <div class="section-container relative z-10 text-center">
+
+    <!-- Badge -->
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-white/70 text-xs font-medium text-text-secondary mb-8 shadow-sm">
+      <span class="px-2 py-0.5 rounded-full bg-text-primary text-white text-[10px] font-semibold tracking-wide">{content.badgeTag}</span>
+      {content.badge}
+    </div>
+
+    <!-- Headline -->
+    <h1 class="text-5xl md:text-6xl lg:text-[4.25rem] font-bold tracking-tight text-text-primary leading-[1.08] mb-6 max-w-3xl mx-auto">
+      {content.headline}
+    </h1>
+
+    <!-- Subheadline -->
+    <p class="text-lg md:text-xl text-text-secondary leading-relaxed mb-10 max-w-xl mx-auto">
+      {content.sub}
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-wrap items-center justify-center gap-3 mb-16">
+      <button
+        data-cta="core"
+        class="btn-primary px-6 py-3 text-base"
+      >
+        {content.ctaLabel}
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <a
+        href="#como-funciona-motor"
+        class="btn-ghost px-6 py-3 text-base"
+      >
+        {content.secondaryLabel}
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Floating product mockup -->
+    <div class="relative mx-auto max-w-5xl overflow-x-auto -mx-6 px-6 sm:mx-auto sm:px-0">
+      <!-- Glow behind mockup -->
+      <div class="absolute -inset-4 bg-accent/8 rounded-3xl blur-2xl pointer-events-none hidden sm:block"></div>
+
+      <!-- Browser chrome -->
+      <div class="relative rounded-t-2xl border border-border border-b-0 bg-bg-elevated shadow-2xl shadow-black/10 overflow-hidden min-w-[700px] sm:min-w-0">
+        <!-- Titlebar -->
+        <div class="flex items-center gap-2 px-5 py-3.5 border-b border-border bg-white">
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-400/80"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400/80"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400/80"></div>
+          </div>
+          <div class="flex-1 flex justify-center">
+            <div class="flex items-center gap-2 px-4 py-1 rounded-lg bg-bg-elevated border border-border text-xs text-text-muted font-mono">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
+                <circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1"/>
+                <path d="M5.5 2v3.5l2 2" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+              core.ilbirade.com
+            </div>
+          </div>
+          <div class="w-16"></div>
+        </div>
+
+        <!-- Dashboard UI -->
+        <div class="flex h-[400px] bg-bg-secondary text-sm">
+
+          <!-- Sidebar -->
+          <div class="w-52 flex-shrink-0 bg-white border-r border-border flex flex-col py-4">
+            <!-- Logo -->
+            <div class="flex items-center gap-2 px-5 mb-6">
+              <div class="w-6 h-6 rounded bg-text-primary flex items-center justify-center">
+                <span class="text-white text-[10px] font-bold">I</span>
+              </div>
+              <span class="text-sm font-semibold text-text-primary">Ilbira Core</span>
+            </div>
+            <!-- Nav items -->
+            <nav class="flex flex-col gap-0.5 px-2 text-xs">
+              {[
+                { icon: '▦', label: content.sidebarLabels.dashboard, active: false },
+                { icon: '⚙', label: content.sidebarLabels.procesos, active: true },
+                { icon: '◎', label: content.sidebarLabels.trabajadores, active: false },
+                { icon: '≡', label: content.sidebarLabels.auditoria, active: false },
+                { icon: '◈', label: content.sidebarLabels.costes, active: false },
+              ].map(item => (
+                <div class={`flex items-center gap-2.5 px-3 py-2 rounded-lg ${item.active ? 'bg-bg-elevated text-text-primary font-medium' : 'text-text-secondary'}`}>
+                  <span class="text-[13px]">{item.icon}</span>
+                  {item.label}
+                </div>
+              ))}
+            </nav>
+            <!-- Costs widget -->
+            <div class="mt-auto mx-3 p-3 rounded-xl bg-bg-elevated border border-border">
+              <p class="text-[10px] text-text-muted uppercase tracking-wider mb-1.5">{content.costToday}</p>
+              <p class="text-lg font-semibold text-text-primary">€3.09</p>
+              <p class="text-[10px] text-text-muted">€0.021 {content.perTransaction}</p>
+            </div>
+          </div>
+
+          <!-- Main content -->
+          <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header bar -->
+            <div class="flex items-center justify-between px-6 py-4 bg-white border-b border-border">
+              <div>
+                <h2 class="text-sm font-semibold text-text-primary">{content.headerTitle}</h2>
+                <p class="text-xs text-text-muted">{content.headerSub}</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="flex items-center gap-1.5 text-xs text-success font-medium px-2.5 py-1 rounded-full bg-green-50 border border-green-200">
+                  <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                  {content.active}
+                </span>
+              </div>
+            </div>
+
+            <!-- Content grid -->
+            <div class="flex-1 p-5 grid grid-cols-3 gap-4 overflow-hidden">
+              <!-- Stat cards -->
+              <div class="card p-4 flex flex-col gap-1">
+                <p class="text-[10px] text-text-muted uppercase tracking-wider">{content.stats.automation}</p>
+                <p class="text-2xl font-bold text-text-primary">89%</p>
+                <div class="h-1.5 bg-border rounded-full overflow-hidden mt-1">
+                  <div class="h-full bg-success rounded-full" style="width:89%"></div>
+                </div>
+              </div>
+              <div class="card p-4 flex flex-col gap-1">
+                <p class="text-[10px] text-text-muted uppercase tracking-wider">{content.stats.processedToday}</p>
+                <p class="text-2xl font-bold text-text-primary">147</p>
+                <p class="text-[10px] text-text-muted mt-1">12 {content.stats.escalated}</p>
+              </div>
+              <div class="card p-4 flex flex-col gap-1">
+                <p class="text-[10px] text-text-muted uppercase tracking-wider">{content.stats.avgConfidence}</p>
+                <p class="text-2xl font-bold text-text-primary">94%</p>
+                <p class="text-[10px] text-success mt-1">{content.stats.vsYesterday}</p>
+              </div>
+
+              <!-- Activity log -->
+              <div class="col-span-3 card p-4 overflow-hidden">
+                <p class="text-xs font-medium text-text-secondary mb-3">{content.logTitle}</p>
+                <div class="flex flex-col gap-2">
+                  {content.logRows.map(row => (
+                    <div class="flex items-center justify-between text-xs py-1.5 border-b border-border last:border-0">
+                      <div class="flex items-center gap-2.5">
+                        <span class={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${row.status === 'success' ? 'bg-success' : 'bg-warning'}`}></span>
+                        <span class="font-mono text-text-muted">{row.id}</span>
+                        <span class="text-text-secondary">{row.desc}</span>
+                      </div>
+                      <div class="flex items-center gap-4 flex-shrink-0">
+                        <span class="font-medium text-text-primary">{row.amount}</span>
+                        <span class="text-text-muted">{row.time}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fade to white at bottom -->
+  <div class="h-24 bg-gradient-to-b from-transparent to-white pointer-events-none"></div>
+</section>

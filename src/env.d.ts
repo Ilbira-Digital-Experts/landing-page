@@ -1,0 +1,9 @@
+/// <reference path="../.astro/types.d.ts" />
+/// <reference types="astro/client" />
+
+interface ImportMetaEnv {
+  readonly LEAD_WEBHOOK_URL?: string;
+}
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}

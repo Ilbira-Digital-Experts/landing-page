@@ -1,0 +1,106 @@
+---
+import { type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const content = {
+  es: {
+    label: 'Resultados',
+    heading: 'Ilbira funciona primero en nuestra propia empresa.',
+    sub: 'Antes de venderlo, lo usamos nosotros. Los tres agentes que ves aquí están en producción hoy. Las métricas son reales, no demos controladas.',
+    cases: [
+      {
+        proceso: 'Agente de presupuestos',
+        descripcion: 'Genera y revisa propuestas comerciales comparando histórico de proyectos, márgenes y condiciones del cliente.',
+        stat: '73%',
+        statLabel: 'reducción en tiempo de preparación',
+      },
+      {
+        proceso: 'Conciliación de facturas',
+        descripcion: 'Valida facturas entrantes contra pedidos de compra, detecta discrepancias y escala las excepciones para revisión humana.',
+        stat: '91%',
+        statLabel: 'de facturas procesadas sin intervención',
+      },
+      {
+        proceso: 'Deployment automatizado',
+        descripcion: 'Orquesta el ciclo de despliegue: tests, validación de entornos, notificaciones al equipo y rollback automático si detecta anomalías.',
+        stat: '0',
+        statLabel: 'intervenciones manuales en producción esta semana',
+      },
+    ],
+    placeholderTitle: 'Primer caso externo — en camino',
+    placeholderBody: 'Publicaremos resultados reales del primer proyecto con cliente en cuanto tengamos datos suficientes.',
+  },
+  en: {
+    label: 'Results',
+    heading: 'Ilbira runs on itself first.',
+    sub: "Before we sell it, we use it. The three agents you see here are in production today. The metrics are real, not controlled demos.",
+    cases: [
+      {
+        proceso: 'Proposal agent',
+        descripcion: 'Generates and reviews commercial proposals by comparing project history, margins, and client terms.',
+        stat: '73%',
+        statLabel: 'reduction in preparation time',
+      },
+      {
+        proceso: 'Invoice reconciliation',
+        descripcion: 'Validates incoming invoices against purchase orders, flags discrepancies, and escalates exceptions for human review.',
+        stat: '91%',
+        statLabel: 'of invoices processed without intervention',
+      },
+      {
+        proceso: 'Automated deployment',
+        descripcion: 'Orchestrates the release cycle: tests, environment validation, team notifications, and automatic rollback on anomalies.',
+        stat: '0',
+        statLabel: 'manual interventions in production this week',
+      },
+    ],
+    placeholderTitle: 'First external case study — coming soon',
+    placeholderBody: "We'll publish real results from our first client engagement as soon as we have enough data.",
+  },
+}[lang];
+---
+
+<section class="py-24 lg:py-32 bg-bg-secondary" id="casos" aria-labelledby="prueba-heading">
+  <div class="section-container">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <p class="section-label">{content.label}</p>
+      <h2 id="prueba-heading" class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-4">
+        {content.heading}
+      </h2>
+      <p class="text-text-secondary text-lg">
+        {content.sub}
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5 mb-14">
+      {content.cases.map((c) => (
+        <article class="card flex flex-col gap-4">
+          <p class="text-xs font-mono text-text-muted uppercase tracking-wider">{c.proceso}</p>
+          <p class="text-sm text-text-secondary leading-relaxed flex-1">{c.descripcion}</p>
+          <div class="pt-4 border-t border-border">
+            <p class="text-3xl font-semibold text-text-primary tabular-nums">{c.stat}</p>
+            <p class="text-xs text-text-muted mt-1">{c.statLabel}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Future case study placeholder -->
+    <div class="rounded-xl border border-dashed border-border p-7 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+      <div class="w-10 h-10 rounded-lg border border-border flex items-center justify-center flex-shrink-0">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-text-secondary">{content.placeholderTitle}</p>
+        <p class="text-xs text-text-muted mt-1">{content.placeholderBody}</p>
+      </div>
+    </div>
+  </div>
+</section>

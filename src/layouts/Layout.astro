@@ -1,0 +1,99 @@
+---
+import JsonLd from '../components/JsonLd.astro';
+import { pathWithLang, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const {
+  lang,
+  title,
+  description,
+  canonical,
+  ogImage = '/og-default.png',
+  noindex = false,
+} = Astro.props;
+
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+const siteURL = Astro.site!.origin;
+const alternateEs = new URL(pathWithLang(Astro.url.pathname, 'es'), Astro.site).href;
+const alternateEn = new URL(pathWithLang(Astro.url.pathname, 'en'), Astro.site).href;
+const ogLocale = lang === 'en' ? 'en_US' : 'es_ES';
+
+const orgDescription = {
+  es: 'Ilbira es un estudio de arquitectura de agentes de IA: auditoría, implementación y operación de agentes con observabilidad, control de coste y criterio técnico verificable desde el primer día.',
+  en: 'Ilbira is an AI agent architecture studio: audit, implementation and operation of agents with observability, cost control and verifiable technical judgment from day one.',
+}[lang];
+---
+
+<!DOCTYPE html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="es" href={alternateEs} />
+    <link rel="alternate" hreflang="en" href={alternateEn} />
+    <link rel="alternate" hreflang="x-default" href={alternateEs} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:site_name" content="Ilbira" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- JSON-LD: WebSite -->
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'Ilbira',
+        url: siteURL,
+        description: orgDescription,
+        inLanguage: lang,
+      }}
+    />
+
+    <!-- JSON-LD: Organization -->
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'ProfessionalService',
+        name: 'Ilbira',
+        url: siteURL,
+        email: 'hola@ilbirade.com',
+        description: orgDescription,
+        founder: { '@type': 'Person', name: 'Fabián Almenara' },
+      }}
+    />
+  </head>
+
+  <body class="bg-bg-primary text-text-primary antialiased">
+    <slot />
+  </body>
+</html>

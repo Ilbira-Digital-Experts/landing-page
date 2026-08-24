@@ -1,0 +1,38 @@
+---
+import { langStaticPaths } from '../../i18n/paths';
+import { type Lang } from '../../i18n/ui';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import SlideInForm from '../../components/SlideInForm.astro';
+import SocialProof from '../../components/SocialProof.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const lang = Astro.params.lang as Lang;
+
+const meta = {
+  es: {
+    title: 'Casos — Ilbira',
+    description: 'Resultados reales y anonimizados de agentes de IA en producción: automatización, coste por transacción y tiempo ahorrado.',
+  },
+  en: {
+    title: 'Case studies — Ilbira',
+    description: 'Real, anonymized results from AI agents in production: automation, cost per transaction, and time saved.',
+  },
+}[lang];
+---
+
+<Layout lang={lang} title={meta.title} description={meta.description}>
+  <SlideInForm lang={lang} />
+  <Navbar lang={lang} />
+  <main class="pt-16">
+    <SocialProof lang={lang} />
+    <CtaBanner lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</Layout>

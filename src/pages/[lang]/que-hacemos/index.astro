@@ -1,0 +1,99 @@
+---
+import { langStaticPaths } from '../../../i18n/paths';
+import { useUI, type Lang } from '../../../i18n/ui';
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import SlideInForm from '../../../components/SlideInForm.astro';
+import CtaBanner from '../../../components/CtaBanner.astro';
+import '../../../styles/global.css';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useUI(lang);
+
+const content = {
+  es: {
+    title: 'Qué hacemos — Ilbira',
+    description: 'Auditoría AgentOps, implementación de agentes y AgentOps gestionado: tres formas de trabajar con Ilbira según dónde estés.',
+    heading: 'Qué hacemos',
+    sub: 'Tres servicios pensados para las tres fases de adoptar agentes de IA con criterio: evaluar, construir y operar.',
+    services: [
+      {
+        num: '01',
+        title: t.subnav.auditoria,
+        body: 'Diagnóstico corto: qué agentes tienen sentido, cuáles no, y por qué. El punto de entrada a todo lo demás.',
+        href: `/${lang}/que-hacemos/auditoria-agentops`,
+      },
+      {
+        num: '02',
+        title: t.subnav.implementacion,
+        body: 'El servicio principal: arquitecturamos, implementamos y auditamos el resultado con datos reales, de producción a producción.',
+        href: `/${lang}/que-hacemos/implementacion-de-agentes`,
+      },
+      {
+        num: '03',
+        title: t.subnav.gestionado,
+        body: 'Una vez en producción, operamos, monitorizamos y mejoramos tus agentes de forma continua.',
+        href: `/${lang}/que-hacemos/agentops-gestionado`,
+      },
+    ],
+  },
+  en: {
+    title: 'What we do — Ilbira',
+    description: 'AgentOps Audit, agent implementation, and managed AgentOps: three ways to work with Ilbira depending on where you are.',
+    heading: 'What we do',
+    sub: 'Three services designed for the three phases of adopting AI agents with judgment: evaluate, build, and operate.',
+    services: [
+      {
+        num: '01',
+        title: t.subnav.auditoria,
+        body: "Short diagnostic: which agents make sense, which don't, and why. The entry point to everything else.",
+        href: `/${lang}/que-hacemos/auditoria-agentops`,
+      },
+      {
+        num: '02',
+        title: t.subnav.implementacion,
+        body: 'The core service: we architect, implement, and audit the outcome with real production data.',
+        href: `/${lang}/que-hacemos/implementacion-de-agentes`,
+      },
+      {
+        num: '03',
+        title: t.subnav.gestionado,
+        body: 'Once in production, we operate, monitor, and continuously improve your agents.',
+        href: `/${lang}/que-hacemos/agentops-gestionado`,
+      },
+    ],
+  },
+}[lang];
+---
+
+<Layout lang={lang} title={content.title} description={content.description}>
+  <SlideInForm lang={lang} />
+  <Navbar lang={lang} />
+  <main>
+    <section class="py-24 lg:py-32 pt-40">
+      <div class="section-container">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-4">{content.heading}</h1>
+          <p class="text-text-secondary text-lg">{content.sub}</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5">
+          {content.services.map(s => (
+            <a href={s.href} class="card p-7 flex flex-col gap-4 hover:shadow-md transition-shadow duration-200 group">
+              <span class="text-xs font-mono text-text-muted">{s.num}</span>
+              <h2 class="text-base font-semibold text-text-primary leading-snug group-hover:underline">{s.title}</h2>
+              <p class="text-sm text-text-secondary leading-relaxed flex-1">{s.body}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+    <CtaBanner lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</Layout>

@@ -1,0 +1,80 @@
+---
+import { type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const icons = [
+  `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M11 2L2 7v8l9 5 9-5V7L11 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 12a1 1 0 100-2 1 1 0 000 2zM11 8v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="3" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 8h16M8 3v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11 13l2 2-2 2M9 15h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M11 7v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+];
+
+const content = {
+  es: {
+    label: 'El problema',
+    heading: 'La IA se introdujo en las empresas antes de que hubiera control sobre ella.',
+    sub: 'Tres síntomas que reconocerás si ya tienes agentes o automatizaciones con modelos de lenguaje en producción.',
+    items: [
+      {
+        title: 'Pagas por tokens que no controlas.',
+        body: 'El gasto en APIs de IA crece cada mes sin saber qué agente o proceso lo genera. Sin atribución, no hay forma de optimizar ni de justificar el coste ante dirección.',
+      },
+      {
+        title: 'El conocimiento de tu empresa se queda en servidores ajenos.',
+        body: 'Cada llamada a un modelo externo lleva contexto de tu negocio fuera de tu infraestructura. Las excepciones, las reglas, los criterios de aprobación: expuestos a sistemas de terceros sin control.',
+      },
+      {
+        title: 'Tus agentes deciden. Tú no sabes por qué.',
+        body: 'Sin trazabilidad, es imposible auditar, corregir o mejorar lo que hace un agente. Cuando algo falla, no hay registro. Cuando algo se aprueba mal, nadie puede explicarlo.',
+      },
+    ],
+  },
+  en: {
+    label: 'The problem',
+    heading: 'AI showed up in companies before there was any control over it.',
+    sub: "Three symptoms you'll recognize if you already run agents or LLM-based automation in production.",
+    items: [
+      {
+        title: "You're paying for tokens you don't control.",
+        body: "AI API spend grows every month without knowing which agent or process is generating it. Without attribution, there's no way to optimize costs or justify them to leadership.",
+      },
+      {
+        title: "Your company's knowledge sits on someone else's servers.",
+        body: "Every call to an external model carries your business context outside your infrastructure. Exceptions, rules, approval criteria — exposed to third-party systems with no control.",
+      },
+      {
+        title: "Your agents decide. You don't know why.",
+        body: "Without traceability, it's impossible to audit, correct, or improve what an agent does. When something fails, there's no record. When something gets approved incorrectly, no one can explain it.",
+      },
+    ],
+  },
+}[lang];
+---
+
+<section class="py-24 lg:py-32 bg-white" id="el-problema" aria-labelledby="problema-heading">
+  <div class="section-container">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <p class="section-label">{content.label}</p>
+      <h2 id="problema-heading" class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-4">
+        {content.heading}
+      </h2>
+      <p class="text-text-secondary text-lg">
+        {content.sub}
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+      {content.items.map((p, i) => (
+        <article class="card p-7 flex flex-col gap-4 hover:shadow-md transition-shadow duration-200">
+          <div class="w-11 h-11 rounded-xl bg-bg-elevated border border-border flex items-center justify-center flex-shrink-0 text-text-secondary" set:html={icons[i]} />
+          <h3 class="text-base font-semibold text-text-primary leading-snug">{p.title}</h3>
+          <p class="text-sm text-text-secondary leading-relaxed">{p.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

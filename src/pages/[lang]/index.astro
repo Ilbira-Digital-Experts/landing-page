@@ -1,0 +1,42 @@
+---
+import { langStaticPaths } from '../../i18n/paths';
+import { type Lang } from '../../i18n/ui';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import SlideInForm from '../../components/SlideInForm.astro';
+import HomeHero from '../../components/HomeHero.astro';
+import Problem from '../../components/Problem.astro';
+import ServicesTeaser from '../../components/ServicesTeaser.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const lang = Astro.params.lang as Lang;
+
+const meta = {
+  es: {
+    title: 'Ilbira — Arquitectura de agentes de IA con criterio verificable',
+    description: 'Ilbira es un estudio de arquitectura de agentes de IA: auditoría, implementación y operación con observabilidad, control de coste y criterio técnico verificable desde el día uno.',
+  },
+  en: {
+    title: 'Ilbira — AI agent architecture with verifiable judgment',
+    description: 'Ilbira is an AI agent architecture studio: audit, implementation, and operation with observability, cost control, and verifiable technical judgment from day one.',
+  },
+}[lang];
+---
+
+<Layout lang={lang} title={meta.title} description={meta.description}>
+  <SlideInForm lang={lang} />
+  <Navbar lang={lang} />
+  <main>
+    <HomeHero lang={lang} />
+    <Problem lang={lang} />
+    <ServicesTeaser lang={lang} />
+    <CtaBanner lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</Layout>

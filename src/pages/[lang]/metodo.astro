@@ -1,0 +1,64 @@
+---
+import { langStaticPaths } from '../../i18n/paths';
+import { type Lang } from '../../i18n/ui';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import SlideInForm from '../../components/SlideInForm.astro';
+import Pillars from '../../components/Pillars.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const lang = Astro.params.lang as Lang;
+
+const content = {
+  es: {
+    title: 'Método — Ilbira',
+    description: 'Cómo decidimos qué agentes de IA merece la pena construir: el argumento del punto de equilibrio y la transparencia de criterio.',
+    eyebrow: 'Método',
+    heading: 'No construimos un agente porque se pueda. Lo construimos si sale a cuenta.',
+    sub: 'La mayoría de proyectos de IA fallan por una razón simple: se automatiza porque es posible, no porque el punto de equilibrio entre coste y valor lo justifique. Nuestro método empieza siempre calculando ese punto de equilibrio — antes de escribir una sola línea de arquitectura.',
+    body: [
+      'Un agente tiene coste de desarrollo, coste de operación (tokens, infraestructura, mantenimiento) y coste de error cuando decide mal. Tiene valor en tiempo ahorrado, en errores humanos evitados y en capacidad liberada. Si el valor no supera claramente al coste total, no recomendamos construirlo — por mucho que técnicamente se pueda.',
+      'Ese cálculo lo hacemos con datos de tu proceso real, no con benchmarks genéricos. Y te lo entregamos por escrito, con los números, para que la decisión sea tuya y esté informada.',
+    ],
+  },
+  en: {
+    title: 'Method — Ilbira',
+    description: "How we decide which AI agents are worth building: the break-even argument and transparent judgment.",
+    eyebrow: 'Method',
+    heading: "We don't build an agent because it can be built. We build it if the numbers work.",
+    sub: "Most AI projects fail for a simple reason: they get automated because it's possible, not because the cost/value break-even justifies it. Our method always starts by calculating that break-even — before writing a single line of architecture.",
+    body: [
+      "An agent has development cost, operating cost (tokens, infrastructure, maintenance), and error cost when it decides wrong. It has value in time saved, human errors avoided, and freed-up capacity. If the value doesn't clearly outweigh the total cost, we don't recommend building it — no matter how technically feasible it is.",
+      "We run that calculation with data from your actual process, not generic benchmarks. And we hand it to you in writing, with the numbers, so the decision is yours and it's informed.",
+    ],
+  },
+}[lang];
+---
+
+<Layout lang={lang} title={content.title} description={content.description}>
+  <SlideInForm lang={lang} />
+  <Navbar lang={lang} />
+  <main>
+    <section class="pt-40 pb-16">
+      <div class="section-container max-w-3xl">
+        <p class="section-label">{content.eyebrow}</p>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-5">{content.heading}</h1>
+        <p class="text-text-secondary text-lg leading-relaxed mb-8">{content.sub}</p>
+        <div class="flex flex-col gap-4">
+          {content.body.map(p => (
+            <p class="text-sm text-text-secondary leading-relaxed">{p}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+    <Pillars lang={lang} />
+    <CtaBanner lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</Layout>

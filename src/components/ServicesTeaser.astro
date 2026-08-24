@@ -1,0 +1,84 @@
+---
+import { useUI, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useUI(lang);
+
+const content = {
+  es: {
+    label: 'Qué hacemos',
+    heading: 'Tres formas de trabajar con nosotros, según dónde estés.',
+    services: [
+      {
+        title: t.subnav.auditoria,
+        body: 'Diagnóstico corto: qué agentes tienen sentido, cuáles no, y por qué. Sin compromiso.',
+        href: `/${lang}/que-hacemos/auditoria-agentops`,
+      },
+      {
+        title: t.subnav.implementacion,
+        body: 'El servicio principal: arquitecturamos, implementamos y auditamos el resultado con datos reales.',
+        href: `/${lang}/que-hacemos/implementacion-de-agentes`,
+      },
+      {
+        title: t.subnav.gestionado,
+        body: 'Una vez en producción, operamos y mejoramos tus agentes de forma continua.',
+        href: `/${lang}/que-hacemos/agentops-gestionado`,
+      },
+    ],
+    cta: 'Ver todos los servicios',
+  },
+  en: {
+    label: 'What we do',
+    heading: 'Three ways to work with us, depending on where you are.',
+    services: [
+      {
+        title: t.subnav.auditoria,
+        body: "Short diagnostic: which agents make sense, which don't, and why. No commitment.",
+        href: `/${lang}/que-hacemos/auditoria-agentops`,
+      },
+      {
+        title: t.subnav.implementacion,
+        body: 'The core service: we architect, implement, and audit the outcome with real data.',
+        href: `/${lang}/que-hacemos/implementacion-de-agentes`,
+      },
+      {
+        title: t.subnav.gestionado,
+        body: 'Once in production, we operate and continuously improve your agents.',
+        href: `/${lang}/que-hacemos/agentops-gestionado`,
+      },
+    ],
+    cta: 'See all services',
+  },
+}[lang];
+---
+
+<section class="py-24 lg:py-32 bg-white" aria-labelledby="servicios-heading">
+  <div class="section-container">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <p class="section-label">{content.label}</p>
+      <h2 id="servicios-heading" class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-4">
+        {content.heading}
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5 mb-10">
+      {content.services.map((s, i) => (
+        <a href={s.href} class="card p-7 flex flex-col gap-4 hover:shadow-md transition-shadow duration-200 group">
+          <span class="text-xs font-mono text-text-muted">{`0${i + 1}`}</span>
+          <h3 class="text-base font-semibold text-text-primary leading-snug group-hover:underline">{s.title}</h3>
+          <p class="text-sm text-text-secondary leading-relaxed flex-1">{s.body}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="text-center">
+      <a href={`/${lang}/que-hacemos`} class="btn-ghost px-6 py-3 text-base">
+        {content.cta}
+      </a>
+    </div>
+  </div>
+</section>

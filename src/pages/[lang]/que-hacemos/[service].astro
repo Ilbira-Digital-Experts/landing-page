@@ -1,0 +1,161 @@
+---
+import { LANGS, type Lang } from '../../../i18n/ui';
+import { SERVICES, type Service } from '../../../i18n/services';
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import SlideInForm from '../../../components/SlideInForm.astro';
+import ImplementationPhases from '../../../components/ImplementationPhases.astro';
+import CtaBanner from '../../../components/CtaBanner.astro';
+import '../../../styles/global.css';
+
+export function getStaticPaths() {
+  return LANGS.flatMap((lang) => SERVICES.map((service) => ({ params: { lang, service } })));
+}
+
+const lang = Astro.params.lang as Lang;
+const service = Astro.params.service as Service;
+
+const content = {
+  es: {
+    'auditoria-agentops': {
+      title: 'Auditoría AgentOps — Ilbira',
+      description: 'Diagnóstico corto y sin compromiso: qué agentes de IA merece la pena construir y cuáles no, con el punto de equilibrio calculado.',
+      eyebrow: 'Servicio de entrada',
+      heading: 'Sabrás en dos semanas qué merece la pena automatizar.',
+      sub: 'Un diagnóstico corto y sin compromiso. No te vendemos nada hasta que sepamos si el punto de equilibrio entre coste y valor sale a cuenta.',
+      bullets: [
+        'Mapeo de los procesos candidatos a agentes de IA',
+        'Cálculo del punto de equilibrio coste/valor por proceso',
+        'Identificación de riesgos de observabilidad y gobierno de datos',
+        'Informe con recomendación clara: automatizar, esperar o descartar',
+      ],
+      meta: [
+        { label: 'Duración', value: '1-2 semanas' },
+        { label: 'Para quién', value: 'CTOs, IT Managers y responsables de innovación' },
+        { label: 'Entregable', value: 'Informe de auditoría con recomendación' },
+      ],
+    },
+    'agentops-gestionado': {
+      title: 'AgentOps gestionado — Ilbira',
+      description: 'Operamos y mejoramos de forma continua los agentes de IA que ya están en producción: coste, rendimiento y criterio siempre bajo control.',
+      eyebrow: 'Servicio recurrente',
+      heading: 'Operamos y mejoramos tus agentes cuando ya están en producción.',
+      sub: 'Un agente no se implementa una vez y se olvida. Los modelos cambian, los costes cambian, los procesos cambian. Nosotros los mantenemos afinados.',
+      bullets: [
+        'Monitorización continua de coste y rendimiento',
+        'Ajuste del criterio del agente según nuevos casos',
+        'Informe mensual de automatización y ahorro',
+        'Canal directo para escalados y excepciones',
+      ],
+      meta: [
+        { label: 'Formato', value: 'Retainer mensual' },
+        { label: 'Para quién', value: 'Equipos con agentes ya en producción' },
+        { label: 'Entregable', value: 'Informe mensual + canal de soporte directo' },
+      ],
+    },
+  },
+  en: {
+    'auditoria-agentops': {
+      title: 'AgentOps Audit — Ilbira',
+      description: "A short, no-obligation diagnostic: which AI agents are worth building and which aren't, with the break-even calculated.",
+      eyebrow: 'Entry-point service',
+      heading: "You'll know in two weeks what's worth automating.",
+      sub: "A short, no-obligation diagnostic. We don't sell you anything until we know whether the cost/value break-even actually works.",
+      bullets: [
+        'Mapping of processes that are candidates for AI agents',
+        'Cost/value break-even calculation per process',
+        'Identification of observability and data-governance risks',
+        'A report with a clear recommendation: automate, wait, or discard',
+      ],
+      meta: [
+        { label: 'Duration', value: '1-2 weeks' },
+        { label: 'For', value: 'CTOs, IT Managers, and heads of innovation' },
+        { label: 'Deliverable', value: 'Audit report with recommendation' },
+      ],
+    },
+    'agentops-gestionado': {
+      title: 'Managed AgentOps — Ilbira',
+      description: 'We continuously operate and improve AI agents already in production: cost, performance, and judgment always under control.',
+      eyebrow: 'Recurring service',
+      heading: 'We operate and improve your agents once they’re in production.',
+      sub: "An agent isn't implemented once and forgotten. Models change, costs change, processes change. We keep them tuned.",
+      bullets: [
+        'Continuous cost and performance monitoring',
+        "Tuning the agent's judgment as new cases appear",
+        'Monthly automation and savings report',
+        'Direct channel for escalations and exceptions',
+      ],
+      meta: [
+        { label: 'Format', value: 'Monthly retainer' },
+        { label: 'For', value: 'Teams with agents already in production' },
+        { label: 'Deliverable', value: 'Monthly report + direct support channel' },
+      ],
+    },
+  },
+}[lang];
+
+const isImplementation = service === 'implementacion-de-agentes';
+const implementationMeta = {
+  es: {
+    title: 'Implementación de agentes — Ilbira',
+    description: 'De la auditoría a producción: arquitecturamos e implementamos agentes de IA con criterio auditable en cada paso.',
+    eyebrow: 'Servicio principal',
+    heading: 'De la auditoría a producción, con criterio auditable en cada paso.',
+    sub: 'Arquitecturamos e implementamos los agentes recomendados en la auditoría, con la misma disciplina de observabilidad y coste desde el primer commit.',
+  },
+  en: {
+    title: 'Agent implementation — Ilbira',
+    description: 'From audit to production: we architect and implement AI agents with an auditable judgment trail at every step.',
+    eyebrow: 'Core service',
+    heading: 'From audit to production, with an auditable judgment trail at every step.',
+    sub: "We architect and implement the agents recommended in the audit, with the same discipline on observability and cost from the first commit.",
+  },
+}[lang];
+
+const page = isImplementation ? implementationMeta : content[service];
+---
+
+<Layout lang={lang} title={page.title} description={page.description}>
+  <SlideInForm lang={lang} />
+  <Navbar lang={lang} />
+  <main>
+    <section class="pt-40 pb-16">
+      <div class="section-container max-w-3xl">
+        <p class="section-label">{page.eyebrow}</p>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-5">{page.heading}</h1>
+        <p class="text-text-secondary text-lg leading-relaxed">{page.sub}</p>
+      </div>
+    </section>
+
+    {isImplementation ? (
+      <ImplementationPhases lang={lang} />
+    ) : (
+      <section class="pb-16">
+        <div class="section-container max-w-3xl grid sm:grid-cols-2 gap-10">
+          <ul class="flex flex-col gap-3">
+            {'bullets' in content[service] && content[service].bullets.map((b: string) => (
+              <li class="flex items-start gap-2.5 text-sm text-text-secondary leading-relaxed">
+                <svg class="w-4 h-4 text-success flex-shrink-0 mt-0.5" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M2.5 7l3.5 3.5 5.5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {b}
+              </li>
+            ))}
+          </ul>
+          <dl class="flex flex-col gap-4 pt-6 border-t border-border sm:pt-0 sm:border-t-0 sm:border-l sm:pl-8">
+            {'meta' in content[service] && content[service].meta.map((m: { label: string; value: string }) => (
+              <div>
+                <dt class="text-xs font-mono uppercase tracking-wider text-text-muted mb-1">{m.label}</dt>
+                <dd class="text-sm text-text-primary">{m.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    )}
+
+    {!isImplementation && <CtaBanner lang={lang} />}
+  </main>
+  <Footer lang={lang} />
+</Layout>

@@ -1,0 +1,56 @@
+---
+import { langStaticPaths } from '../../i18n/paths';
+import { useUI, type Lang } from '../../i18n/ui';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import SlideInForm from '../../components/SlideInForm.astro';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useUI(lang);
+
+const content = {
+  es: {
+    title: 'Contacto — Ilbira',
+    description: 'Reserva tu Auditoría AgentOps: un diagnóstico corto y sin compromiso sobre qué agentes de IA merece la pena construir.',
+    eyebrow: 'Contacto',
+    heading: 'Hablemos de tu caso.',
+    sub: 'El primer paso siempre es el mismo: la Auditoría AgentOps. Un diagnóstico corto, sin compromiso, con hallazgos concretos sobre qué merece la pena automatizar.',
+    directLabel: 'O escríbenos directamente a',
+  },
+  en: {
+    title: 'Contact — Ilbira',
+    description: 'Book your AgentOps Audit: a short, no-obligation diagnostic on which AI agents are worth building.',
+    eyebrow: 'Contact',
+    heading: "Let's talk about your case.",
+    sub: 'The first step is always the same: the AgentOps Audit. A short, no-obligation diagnostic with concrete findings on what’s worth automating.',
+    directLabel: 'Or email us directly at',
+  },
+}[lang];
+---
+
+<Layout lang={lang} title={content.title} description={content.description}>
+  <SlideInForm lang={lang} />
+  <Navbar lang={lang} />
+  <main>
+    <section class="pt-40 pb-32 text-center">
+      <div class="section-container max-w-xl">
+        <p class="section-label">{content.eyebrow}</p>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-5">{content.heading}</h1>
+        <p class="text-text-secondary text-lg leading-relaxed mb-10">{content.sub}</p>
+        <button data-cta="main" class="btn-primary px-8 py-3.5 text-base">
+          {t.cta}
+        </button>
+        <p class="text-sm text-text-muted mt-8">
+          {content.directLabel} <a href="mailto:hola@ilbirade.com" class="text-text-primary hover:text-accent underline underline-offset-4">hola@ilbirade.com</a>
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} />
+</Layout>

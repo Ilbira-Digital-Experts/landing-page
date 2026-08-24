@@ -1,0 +1,285 @@
+---
+import { type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const copy = {
+  es: {
+    audit: {
+      eyebrow: 'Auditoría AgentOps',
+      title: 'Reserva tu auditoría',
+      submit: 'Reservar auditoría',
+      submitting: 'Enviando...',
+      successTitle: 'Perfecto.',
+      successBody: 'Te contactamos en menos de 24 horas para agendar la auditoría.',
+    },
+    core: {
+      eyebrow: 'Ilbira Core',
+      title: 'Apúntate a la lista de espera',
+      submit: 'Quiero más información',
+      submitting: 'Enviando...',
+      successTitle: 'Anotado.',
+      successBody: 'Te avisaremos según avance la disponibilidad de Ilbira Core.',
+    },
+    fields: {
+      name: 'Nombre completo',
+      namePlaceholder: 'Ana García',
+      email: 'Email corporativo',
+      emailPlaceholder: 'ana@empresa.com',
+      emailHint: 'No aceptamos emails de Gmail ni similares.',
+      company: 'Empresa',
+      companyPlaceholder: 'Nombre de tu empresa',
+      message: 'Cuéntanos brevemente tu caso (opcional)',
+      messagePlaceholder: 'Qué agentes/procesos quieres auditar o automatizar',
+      close: 'Cerrar',
+      privacyHint: 'Sin spam. Te contactamos en menos de 24 horas.',
+      genericError: 'Por favor completa todos los campos obligatorios.',
+      emailError: 'Introduce un email válido.',
+      networkError: 'Error al enviar. Escríbenos a hola@ilbirade.com',
+    },
+  },
+  en: {
+    audit: {
+      eyebrow: 'AgentOps Audit',
+      title: 'Book your audit',
+      submit: 'Book audit',
+      submitting: 'Sending...',
+      successTitle: 'Done.',
+      successBody: "We'll reach out within 24 hours to schedule the audit.",
+    },
+    core: {
+      eyebrow: 'Ilbira Core',
+      title: 'Join the waitlist',
+      submit: 'Request more info',
+      submitting: 'Sending...',
+      successTitle: 'Noted.',
+      successBody: "We'll keep you posted as Ilbira Core availability opens up.",
+    },
+    fields: {
+      name: 'Full name',
+      namePlaceholder: 'Ana García',
+      email: 'Work email',
+      emailPlaceholder: 'ana@company.com',
+      emailHint: "We don't accept Gmail or similar addresses.",
+      company: 'Company',
+      companyPlaceholder: 'Your company name',
+      message: 'Briefly describe your case (optional)',
+      messagePlaceholder: 'Which agents/processes you want audited or automated',
+      close: 'Close',
+      privacyHint: "No spam. We'll reach out within 24 hours.",
+      genericError: 'Please fill in all required fields.',
+      emailError: 'Enter a valid email address.',
+      networkError: 'Something went wrong. Email us at hola@ilbirade.com',
+    },
+  },
+}[lang];
+---
+
+<!-- Overlay + centering wrapper -->
+<div
+  id="form-overlay"
+  class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+  aria-hidden="true"
+  data-copy={JSON.stringify(copy)}
+>
+  <!-- Modal card -->
+  <div
+    id="form-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="form-modal-title"
+    class="w-full max-w-lg bg-white border border-border rounded-2xl shadow-2xl overflow-y-auto max-h-[92vh]"
+  >
+    <div class="p-8 flex flex-col gap-6">
+
+      <!-- Header -->
+      <div class="flex items-start justify-between">
+        <div>
+          <p id="form-eyebrow" class="text-xs font-mono uppercase tracking-widest text-text-muted mb-1">{copy.audit.eyebrow}</p>
+          <h2 id="form-modal-title" class="text-xl font-semibold text-text-primary">
+            {copy.audit.title}
+          </h2>
+        </div>
+        <button
+          id="form-close"
+          aria-label={copy.fields.close}
+          class="text-text-muted hover:text-text-primary transition-colors p-1 -mr-1 mt-0.5 rounded-lg hover:bg-bg-elevated"
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M14 4L4 14M4 4l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form id="lead-form" class="flex flex-col gap-4" novalidate>
+        <input type="hidden" id="field-kind" name="tipo" value="audit" />
+        <input type="hidden" name="lang" value={lang} />
+
+        <div class="flex flex-col gap-1.5">
+          <label for="field-name" class="text-xs font-medium text-text-secondary">{copy.fields.name}</label>
+          <input id="field-name" name="nombre" type="text" required autocomplete="name"
+            placeholder={copy.fields.namePlaceholder} class="input-field" />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="field-email" class="text-xs font-medium text-text-secondary">{copy.fields.email}</label>
+          <input id="field-email" name="email" type="email" required autocomplete="email"
+            placeholder={copy.fields.emailPlaceholder} class="input-field" />
+          <p class="text-xs text-text-muted">{copy.fields.emailHint}</p>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="field-company" class="text-xs font-medium text-text-secondary">{copy.fields.company}</label>
+          <input id="field-company" name="empresa" type="text" required autocomplete="organization"
+            placeholder={copy.fields.companyPlaceholder} class="input-field" />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="field-message" class="text-xs font-medium text-text-secondary">{copy.fields.message}</label>
+          <textarea id="field-message" name="mensaje" rows="3"
+            placeholder={copy.fields.messagePlaceholder} class="input-field resize-none"></textarea>
+        </div>
+
+        <p id="form-error" class="text-danger text-sm hidden"></p>
+
+        <div class="pt-2 flex flex-col gap-3">
+          <button type="submit" id="form-submit" class="btn-primary w-full py-3 text-sm justify-center">
+            {copy.audit.submit}
+          </button>
+          <p class="text-xs text-text-muted text-center">
+            {copy.fields.privacyHint}
+          </p>
+        </div>
+      </form>
+
+      <!-- Success -->
+      <div id="form-success" class="hidden flex-col items-center py-8 text-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-green-50 border border-green-200 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M20 6L9 17l-5-5" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h3 id="form-success-title" class="text-lg font-semibold text-text-primary mb-1">{copy.audit.successTitle}</h3>
+          <p id="form-success-body" class="text-sm text-text-secondary leading-relaxed">
+            {copy.audit.successBody}
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const overlay    = document.getElementById('form-overlay')!;
+  const copy       = JSON.parse(overlay.dataset.copy!);
+  const closeBtn   = document.getElementById('form-close')!;
+  const form       = document.getElementById('lead-form') as HTMLFormElement;
+  const successEl  = document.getElementById('form-success')!;
+  const errorEl    = document.getElementById('form-error')!;
+  const submitBtn  = document.getElementById('form-submit') as HTMLButtonElement;
+  const kindInput  = document.getElementById('field-kind') as HTMLInputElement;
+  const eyebrowEl  = document.getElementById('form-eyebrow')!;
+  const titleEl    = document.getElementById('form-modal-title')!;
+  const successTitleEl = document.getElementById('form-success-title')!;
+  const successBodyEl  = document.getElementById('form-success-body')!;
+
+  function applyKind(kind: 'audit' | 'core') {
+    kindInput.value = kind;
+    const c = copy[kind];
+    eyebrowEl.textContent = c.eyebrow;
+    titleEl.textContent = c.title;
+    submitBtn.textContent = c.submit;
+    successTitleEl.textContent = c.successTitle;
+    successBodyEl.textContent = c.successBody;
+  }
+
+  function openModal(kind: 'audit' | 'core') {
+    applyKind(kind);
+    overlay.classList.add('open');
+    overlay.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => (document.getElementById('field-name') as HTMLInputElement)?.focus(), 250);
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function resetForm() {
+    form.reset();
+    form.classList.remove('hidden');
+    successEl.classList.add('hidden');
+    successEl.classList.remove('flex');
+    errorEl.classList.add('hidden');
+    submitBtn.disabled = false;
+    applyKind((kindInput.value as 'audit' | 'core') || 'audit');
+  }
+
+  document.addEventListener('open-form', (e: Event) => {
+    const kind = (e as CustomEvent).detail?.kind === 'core' ? 'core' : 'audit';
+    resetForm();
+    openModal(kind);
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.classList.add('hidden');
+
+    const fd = new FormData(form);
+    const payload: Record<string, string> = {};
+    fd.forEach((v, k) => { payload[k] = v.toString(); });
+
+    if (!payload.nombre?.trim() || !payload.email?.trim() || !payload.empresa?.trim()) {
+      errorEl.textContent = copy.fields.genericError;
+      errorEl.classList.remove('hidden');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+      errorEl.textContent = copy.fields.emailError;
+      errorEl.classList.remove('hidden');
+      return;
+    }
+
+    const kind = (payload.tipo === 'core' ? 'core' : 'audit') as 'audit' | 'core';
+    submitBtn.disabled = true;
+    submitBtn.textContent = copy[kind].submitting;
+
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error();
+      form.classList.add('hidden');
+      successEl.classList.remove('hidden');
+      successEl.classList.add('flex');
+      setTimeout(closeModal, 3200);
+      setTimeout(resetForm, 3700);
+    } catch {
+      errorEl.textContent = copy.fields.networkError;
+      errorEl.classList.remove('hidden');
+      submitBtn.disabled = false;
+      submitBtn.textContent = copy[kind].submit;
+    }
+  });
+</script>

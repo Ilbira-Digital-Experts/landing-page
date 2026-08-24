@@ -1,0 +1,135 @@
+@import '@fontsource-variable/inter';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #FFFFFF;
+    color: #0D1117;
+  }
+
+  body {
+    font-family: 'Inter Variable', 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #FFFFFF;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: rgba(37, 99, 235, 0.15);
+    color: #0D1117;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #F7F9FC; }
+  ::-webkit-scrollbar-thumb { background: #C8CFDB; border-radius: 3px; }
+}
+
+@layer components {
+  .section-label {
+    @apply text-xs font-mono uppercase tracking-widest text-text-muted mb-4;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg
+           bg-text-primary text-white font-medium text-sm
+           hover:bg-gray-800 transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-gray-400/50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg
+           border border-border bg-white text-text-primary font-medium text-sm
+           hover:bg-bg-elevated hover:border-border-bright transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-border;
+  }
+
+  .card {
+    @apply bg-bg-card border border-border rounded-xl p-6 shadow-sm;
+  }
+
+  .input-field {
+    @apply w-full bg-white border border-border rounded-lg px-4 py-2.5
+           text-text-primary text-sm placeholder-text-muted
+           focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/60
+           transition-colors duration-200;
+  }
+
+  .section-container {
+    @apply max-w-6xl mx-auto px-6 lg:px-8;
+  }
+}
+
+/* Hero sky gradient */
+.hero-gradient {
+  background:
+    radial-gradient(ellipse 70% 45% at 20% 8%, rgba(255, 255, 255, 0.5) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 12%, rgba(255, 255, 255, 0.4) 0%, transparent 55%),
+    linear-gradient(180deg, #9CCDF0 0%, #B4DCF7 22%, #CFEAFB 45%, #E8F5FE 68%, #FFFFFF 100%);
+}
+
+/* Terminal animation */
+.terminal-line {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.terminal-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Modal */
+#form-overlay {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+#form-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+#form-modal {
+  opacity: 0;
+  transform: scale(0.96) translateY(10px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+#form-overlay.open #form-modal {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Confidence bars */
+.confidence-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: #E2E6EE;
+  overflow: hidden;
+}
+.confidence-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+/* Grid background */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Animate blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.animate-blink { animation: blink 1s step-end infinite; }

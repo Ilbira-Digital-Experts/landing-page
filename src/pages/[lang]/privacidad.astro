@@ -1,0 +1,88 @@
+---
+import { langStaticPaths } from '../../i18n/paths';
+import { type Lang } from '../../i18n/ui';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import SlideInForm from '../../components/SlideInForm.astro';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const lang = Astro.params.lang as Lang;
+
+const content = {
+  es: {
+    title: 'Política de privacidad — Ilbira',
+    description: 'Qué datos recoge Ilbira a través de sus formularios, para qué los usa y cómo ejercer tus derechos.',
+    heading: 'Política de privacidad',
+    updated: 'Última actualización: julio de 2026',
+    sections: [
+      {
+        h: 'Qué datos recogemos',
+        p: 'Cuando reservas una Auditoría AgentOps o te apuntas a la lista de espera de Ilbira Core, recogemos el nombre, email corporativo, empresa y el mensaje que decidas incluir. No recogemos más datos de los que introduces voluntariamente en el formulario.',
+      },
+      {
+        h: 'Para qué los usamos',
+        p: 'Únicamente para contactarte sobre el servicio solicitado. No vendemos ni cedemos tus datos a terceros con fines comerciales.',
+      },
+      {
+        h: 'Dónde se almacenan',
+        p: 'Los datos se envían a nuestros sistemas internos de gestión de contactos. Puedes solicitar en cualquier momento el acceso, la rectificación o la eliminación de tus datos escribiendo a hola@ilbirade.com.',
+      },
+      {
+        h: 'Responsable',
+        p: 'Ilbira, con sede en Granada, España. Contacto: hola@ilbirade.com.',
+      },
+    ],
+  },
+  en: {
+    title: 'Privacy policy — Ilbira',
+    description: 'What data Ilbira collects through its forms, what it’s used for, and how to exercise your rights.',
+    heading: 'Privacy policy',
+    updated: 'Last updated: July 2026',
+    sections: [
+      {
+        h: 'What data we collect',
+        p: "When you book an AgentOps Audit or join the Ilbira Core waitlist, we collect your name, work email, company, and any message you choose to include. We don't collect more data than what you voluntarily enter in the form.",
+      },
+      {
+        h: 'What we use it for',
+        p: "Only to contact you about the service you requested. We don't sell or share your data with third parties for commercial purposes.",
+      },
+      {
+        h: 'Where it is stored',
+        p: 'The data is sent to our internal contact-management systems. You can request access, correction, or deletion of your data at any time by emailing hola@ilbirade.com.',
+      },
+      {
+        h: 'Data controller',
+        p: 'Ilbira, based in Granada, Spain. Contact: hola@ilbirade.com.',
+      },
+    ],
+  },
+}[lang];
+---
+
+<Layout lang={lang} title={content.title} description={content.description}>
+  <SlideInForm lang={lang} />
+  <Navbar lang={lang} />
+  <main>
+    <section class="pt-40 pb-24">
+      <div class="section-container max-w-2xl">
+        <h1 class="text-3xl font-bold tracking-tight text-text-primary mb-1">{content.heading}</h1>
+        <p class="text-xs font-mono text-text-muted mb-10">{content.updated}</p>
+        <div class="flex flex-col gap-8">
+          {content.sections.map(s => (
+            <div>
+              <h2 class="text-base font-semibold text-text-primary mb-2">{s.h}</h2>
+              <p class="text-sm text-text-secondary leading-relaxed">{s.p}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} />
+</Layout>
