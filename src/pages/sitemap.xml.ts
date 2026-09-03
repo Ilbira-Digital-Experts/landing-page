@@ -1,11 +1,11 @@
-import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
+import { getAllPublishedPosts } from '../lib/posts';
 import { LANGS, type Lang } from '../i18n/ui';
 
-export const prerender = true;
+export const prerender = false;
 
 // Rutas estáticas del sitio, mismo slug en ambos idiomas. Al añadir una
-// página nueva fuera de src/content/blog, regístrala aquí.
+// página nueva fuera del blog (ilbira_posts en Supabase), regístrala aquí.
 const staticSlugs = [
   { path: '', changefreq: 'weekly', priority: 1.0 },
   { path: '/que-hacemos', changefreq: 'monthly', priority: 0.8 },
@@ -42,10 +42,9 @@ export async function GET({ site }: APIContext) {
   const SITE_URL = site!.origin;
   const buildDate = new Date().toISOString();
 
-  // Las entradas del blog se leen de la Content Collection en cada build.
-  // Cuando el pipeline de n8n empuja un nuevo MDX y dispara el rebuild
-  // (On-Demand Revalidation), este endpoint se regenera solo — sin tocar código.
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  // Las entradas del blog se leen de Supabase (ilbira_posts) en cada
+  // request — publicar un post es instantáneo, sin rebuild.
+  const posts = await getAllPublishedPosts();
 
   const staticEntries = staticSlugs.flatMap((route) =>
     LANGS.map((lang) => {
@@ -59,18 +58,16 @@ export async function GET({ site }: APIContext) {
   );
 
   const postEntries = posts.map((post) => {
-    const path = `/${post.data.lang}/recursos/${post.data.slug}`;
-    const lastmod = (post.data.updatedAt ?? post.data.publishedAt).toISOString();
+    const path = `/${post.lang}/recursos/${post.slug}`;
+    const lastmod = (post.updatedAt ?? post.publishedAt).toISOString();
     // Solo enlazamos como alternates posts con el mismo slug publicados en el otro idioma.
-    const counterpart = posts.find(
-      (p) => p.data.slug === post.data.slug && p.data.lang !== post.data.lang
-    );
+    const counterpart = posts.find((p) => p.slug === post.slug && p.lang !== post.lang);
     const alternates = counterpart
       ? [
-          { lang: post.data.lang, path },
-          { lang: counterpart.data.lang, path: `/${counterpart.data.lang}/recursos/${counterpart.data.slug}` },
+          { lang: post.lang, path },
+          { lang: counterpart.lang, path: `/${counterpart.lang}/recursos/${counterpart.slug}` },
         ]
-      : [{ lang: post.data.lang, path }];
+      : [{ lang: post.lang, path }];
     return renderUrl(SITE_URL, path, lastmod, 'monthly', 0.6, alternates);
   });
 

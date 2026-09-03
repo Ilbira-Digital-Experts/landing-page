@@ -4,10 +4,11 @@ Web pública SEO/SEM/GEO-first, bilingüe (ES/EN), con automatización de conten
 
 ## Stack
 
-- **Framework:** Astro (SSG-first, Vite under the hood)
+- **Framework:** Astro (`output: 'hybrid'` — estático por defecto, SSR por página vía `export const prerender = false`)
 - **Estilos:** Tailwind CSS
-- **Contenido:** MDX + Astro Content Collections (validación con Zod)
-- **Hosting:** Vercel (`@astrojs/vercel` adapter)
+- **Base de datos:** Supabase — **mismo proyecto que `fac`** (compartido para ahorrar costes), con tablas propias prefijadas `ilbira_*` en el schema `public` para no colisionar con las tablas de fac (`posts`, `comments`, etc.)
+- **Contenido:** blog en tabla `ilbira_posts` (Supabase), servido vía SSR — publicar es instantáneo, sin rebuild
+- **Hosting:** Vercel (`@astrojs/vercel/serverless` adapter)
 - **Analytics:** Vercel Analytics + Google Analytics 4 (via GTM)
 
 ## Objetivos técnicos
@@ -24,20 +25,24 @@ Web pública SEO/SEM/GEO-first, bilingüe (ES/EN), con automatización de conten
 - El selector de idioma (en `Navbar.astro`) cambia solo el prefijo de idioma, manteniendo el resto de la ruta — mismos slugs en ambos idiomas.
 - `Layout.astro` genera las etiquetas `hreflang` (es/en/x-default) automáticamente a partir de la ruta actual.
 
-## Contenido
+## Contenido y Supabase
 
-- Posts en `src/content/blog/*.mdx`, con campo `lang` (`es` | `en`) en el frontmatter
-- Frontmatter validado con Zod via Content Collections
-- Servidos bajo `/es/recursos` y `/en/recursos`, filtrando la colección por `lang`
-- Pipeline de automatización: generación externa (n8n + Anthropic API) → push MDX → Vercel rebuild via On-Demand Revalidation
+- Blog en la tabla `public.ilbira_posts` (schema SQL en `supabase/ilbira_schema.sql`, aplicado a mano desde el SQL Editor del dashboard — mismo flujo manual que `fac`, sin CLI ni migraciones versionadas)
+- Es el **mismo proyecto Supabase que `fac`**. Convención de aislamiento: tablas de Ilbira siempre prefijadas `ilbira_` en `public` (fac ya usa el mismo patrón de prefijos para dominios relacionados, ej. `client_*`). No usar nombres de tabla sin prefijo para evitar colisión con las tablas de fac (`posts`, `comments`, ...)
+- Cliente Supabase en `src/lib/supabase.ts` (solo `anon` key — igual que fac, sin service role key; el control de acceso vive en RLS)
+- Capa de datos en `src/lib/posts.ts` (`getPublishedPosts`, `getPostBySlug`, `getAllPublishedPosts`)
+- RLS: lectura pública solo de `published = true`; usuarios `authenticated` tienen acceso total (modelo single-admin, igual que fac)
+- Servidos bajo `/es/recursos` y `/en/recursos`, filtrando por `lang` (`es` | `en`) — páginas SSR (`export const prerender = false`), no estáticas
+- Contenido de cada post almacenado como HTML (pensado para un editor rico tipo Tiptap, igual que el admin de fac), renderizado con `set:html`
+- Env vars: `SUPABASE_URL`, `SUPABASE_ANON_KEY` (ver `.env.example`)
 
 ## Estructura de carpetas
 
 ```
 src/
-├── content/
-│   ├── config.ts       # schema Zod de la colección blog
-│   └── blog/            # posts MDX (con campo lang)
+├── lib/
+│   ├── supabase.ts       # cliente Supabase (anon key)
+│   └── posts.ts          # capa de datos del blog (ilbira_posts)
 ├── i18n/
 │   ├── ui.ts             # diccionario de textos de interfaz + helpers de rutas
 │   └── paths.ts          # getStaticPaths compartido para rutas [lang]
@@ -55,33 +60,22 @@ src/
 │   │   ├── contacto.astro
 │   │   ├── privacidad.astro
 │   │   └── recursos/
-│   │       ├── index.astro
-│   │       └── [slug].astro
+│   │       ├── index.astro   # SSR, lista posts publicados de Supabase
+│   │       └── [slug].astro  # SSR, detalle de post
 │   ├── index.astro       # redirect a /es/
-│   ├── sitemap.xml.ts
+│   ├── sitemap.xml.ts    # SSR, incluye posts de Supabase
 │   └── robots.txt.ts
 ├── components/
 └── styles/
 public/
 └── llms.txt           # GEO: contexto para modelos de IA
+supabase/
+└── ilbira_schema.sql   # tablas ilbira_* — aplicar a mano en el SQL Editor
 ```
 
-## Frontmatter estándar de post
+## Columnas de `ilbira_posts`
 
-```yaml
-title: ""
-description: ""        # < 160 chars
-slug: ""
-lang: "es"              # "es" | "en"
-publishedAt: ""        # YYYY-MM-DD
-updatedAt: ""
-author: ""
-tags: []
-canonical: ""
-ogImage: ""
-robots: "index, follow"
-draft: false
-```
+`title`, `description` (< 160 chars), `slug`, `lang` (`es` | `en`), `content` (HTML), `category`, `tags` (`text[]`), `author`, `canonical`, `og_image`, `robots`, `published` (bool), `published_at`, `created_at`, `updated_at`. `unique (slug, lang)`.
 
 ## Convenciones
 
