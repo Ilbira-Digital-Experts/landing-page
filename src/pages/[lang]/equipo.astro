@@ -17,21 +17,41 @@ const lang = Astro.params.lang as Lang;
 const content = {
   es: {
     title: 'Equipo — Ilbira',
-    description: 'Fabián Almenara, fundador de Ilbira: arquitectura de agentes de IA con foco en observabilidad y control de coste.',
+    description: 'El equipo de Ilbira: arquitectura de agentes de IA con foco en observabilidad y control de coste.',
     eyebrow: 'Equipo',
-    heading: 'Fabián Almenara',
-    role: 'Fundador — Ilbira',
-    bio: 'Fabián fundó Ilbira para resolver un problema muy concreto: la mayoría de implementaciones de agentes de IA se venden como cajas negras, sin forma de auditar el coste ni el criterio de decisión. Ilbira nace de aplicar disciplina de ingeniería —observabilidad, atribución de coste, trazabilidad— a un espacio que hasta ahora se ha vendido más como magia que como infraestructura.',
-    linkLabel: 'Más sobre Fabián en fabianalmenara.es',
+    heading: 'Quiénes somos',
+    pendingRole: 'Rol pendiente',
+    pendingBio: 'Bio pendiente.',
+    team: [
+      {
+        name: 'Fabián Almenara',
+        role: 'AI Solution Architect — Fundador',
+        bio: 'Fabián fundó Ilbira para resolver un problema muy concreto: la mayoría de implementaciones de agentes de IA se venden como cajas negras, sin forma de auditar el coste ni el criterio de decisión. Ilbira nace de aplicar disciplina de ingeniería —observabilidad, atribución de coste, trazabilidad— a un espacio que hasta ahora se ha vendido más como magia que como infraestructura.',
+        link: { href: 'https://fabianalmenara.es', label: 'Más sobre Fabián en fabianalmenara.es' },
+      },
+      { name: 'Fran Beltrán', role: 'Senior AI Engineer' },
+      { name: 'Aimar Qmega', role: 'AI Developer' },
+      { name: 'Tomás Giani', role: 'Data Engineer' },
+    ],
   },
   en: {
     title: 'Team — Ilbira',
-    description: 'Fabián Almenara, founder of Ilbira: AI agent architecture with a focus on observability and cost control.',
+    description: "Ilbira's team: AI agent architecture with a focus on observability and cost control.",
     eyebrow: 'Team',
-    heading: 'Fabián Almenara',
-    role: 'Founder — Ilbira',
-    bio: 'Fabián founded Ilbira to solve a very specific problem: most AI agent implementations are sold as black boxes, with no way to audit cost or decision judgment. Ilbira comes from applying engineering discipline — observability, cost attribution, traceability — to a space that has, until now, been sold more as magic than as infrastructure.',
-    linkLabel: 'More about Fabián at fabianalmenara.es',
+    heading: 'Who we are',
+    pendingRole: 'Role pending',
+    pendingBio: 'Bio pending.',
+    team: [
+      {
+        name: 'Fabián Almenara',
+        role: 'AI Solution Architect — Founder',
+        bio: 'Fabián founded Ilbira to solve a very specific problem: most AI agent implementations are sold as black boxes, with no way to audit cost or decision judgment. Ilbira comes from applying engineering discipline — observability, cost attribution, traceability — to a space that has, until now, been sold more as magic than as infrastructure.',
+        link: { href: 'https://fabianalmenara.es', label: "More about Fabián at fabianalmenara.es" },
+      },
+      { name: 'Fran Beltrán', role: 'Senior AI Engineer' },
+      { name: 'Aimar Qmega', role: 'AI Developer' },
+      { name: 'Tomás Giani', role: 'Data Engineer' },
+    ],
   },
 }[lang];
 ---
@@ -41,22 +61,41 @@ const content = {
   <Navbar lang={lang} />
   <main>
     <section class="pt-40 pb-24">
-      <div class="section-container max-w-2xl">
+      <div class="section-container">
         <p class="section-label">{content.eyebrow}</p>
-        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-1">{content.heading}</h1>
-        <p class="text-sm font-mono text-text-muted mb-6">{content.role}</p>
-        <p class="text-text-secondary text-base leading-relaxed mb-8">{content.bio}</p>
-        <a
-          href="https://fabianalmenara.es"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 text-sm font-medium text-text-primary hover:text-accent transition-colors underline underline-offset-4"
-        >
-          {content.linkLabel}
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-12">{content.heading}</h1>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {content.team.map(person => (
+            <div class="flex flex-col">
+              <div
+                class="w-24 h-24 rounded-full bg-bg-elevated border border-border flex items-center justify-center mb-5 flex-shrink-0 overflow-hidden"
+                role="img"
+                aria-label={person.name}
+              >
+                <span class="text-lg font-mono text-text-muted" aria-hidden="true">
+                  {person.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                </span>
+              </div>
+              <h2 class="text-lg font-bold text-text-primary mb-0.5">{person.name}</h2>
+              <p class="text-sm font-mono text-text-muted mb-3">{person.role ?? content.pendingRole}</p>
+              <p class="text-sm text-text-secondary leading-relaxed mb-3">{person.bio ?? content.pendingBio}</p>
+              {person.link && (
+                <a
+                  href={person.link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 text-sm font-medium text-text-primary hover:text-accent transition-colors underline underline-offset-4"
+                >
+                  {person.link.label}
+                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
     <CtaBanner lang={lang} />
