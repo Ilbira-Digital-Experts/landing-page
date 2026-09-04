@@ -6,24 +6,24 @@ export default {
       colors: {
         bg: {
           primary: '#FFFFFF',
-          secondary: '#F7F9FC',
+          secondary: '#F7F5F1',
           card: '#FFFFFF',
-          elevated: '#EFF2F7',
+          elevated: '#F1EEE8',
         },
         accent: {
-          DEFAULT: '#2563EB',
-          hover: '#1D4ED8',
-          dim: 'rgba(37,99,235,0.08)',
+          DEFAULT: '#EA4E1C',
+          hover: '#CC3F12',
+          dim: 'rgba(234,78,28,0.08)',
         },
         border: {
-          DEFAULT: '#E2E6EE',
-          subtle: '#EDF0F5',
-          bright: '#C8CFDB',
+          DEFAULT: '#E7E2D9',
+          subtle: '#F0ECE4',
+          bright: '#D6CFC1',
         },
         text: {
-          primary: '#0D1117',
-          secondary: '#52617A',
-          muted: '#8E99AB',
+          primary: '#1C1917',
+          secondary: '#57534E',
+          muted: '#A29C93',
         },
         success: '#059669',
         warning: '#D97706',
@@ -31,6 +31,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['Instrument Serif', 'Georgia', 'serif'],
         mono: ['SF Mono', 'Fira Code', 'Consolas', 'monospace'],
       },
       animation: {

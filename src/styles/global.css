@@ -1,4 +1,5 @@
 @import '@fontsource-variable/inter';
+@import '@fontsource/instrument-serif';
 
 @tailwind base;
 @tailwind components;
@@ -11,26 +12,26 @@
 
   html {
     scroll-behavior: smooth;
-    background-color: #FFFFFF;
-    color: #0D1117;
+    background-color: #FAF8F5;
+    color: #1C1917;
   }
 
   body {
     font-family: 'Inter Variable', 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #FFFFFF;
+    background-color: #FAF8F5;
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: rgba(37, 99, 235, 0.15);
-    color: #0D1117;
+    background-color: rgba(234, 78, 28, 0.15);
+    color: #1C1917;
   }
 
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #F7F9FC; }
-  ::-webkit-scrollbar-thumb { background: #C8CFDB; border-radius: 3px; }
+  ::-webkit-scrollbar-track { background: #F7F5F1; }
+  ::-webkit-scrollbar-thumb { background: #D6CFC1; border-radius: 3px; }
 }
 
 @layer components {
@@ -39,14 +40,14 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full
            bg-text-primary text-white font-medium text-sm
-           hover:bg-gray-800 transition-colors duration-200
-           focus:outline-none focus:ring-2 focus:ring-gray-400/50;
+           hover:bg-black transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-text-primary/30;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full
            border border-border bg-white text-text-primary font-medium text-sm
            hover:bg-bg-elevated hover:border-border-bright transition-colors duration-200
            focus:outline-none focus:ring-2 focus:ring-border;
@@ -66,14 +67,26 @@
   .section-container {
     @apply max-w-6xl mx-auto px-6 lg:px-8;
   }
+
+  .badge {
+    @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border
+           bg-white/80 text-xs font-medium text-text-secondary shadow-sm;
+  }
+
+  .badge-dot {
+    @apply w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0;
+  }
+
+  .accent-italic {
+    @apply font-serif italic text-accent;
+  }
 }
 
-/* Hero sky gradient */
+/* Hero background: warm flat tone with a soft accent glow */
 .hero-gradient {
   background:
-    radial-gradient(ellipse 70% 45% at 20% 8%, rgba(255, 255, 255, 0.5) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 12%, rgba(255, 255, 255, 0.4) 0%, transparent 55%),
-    linear-gradient(180deg, #9CCDF0 0%, #B4DCF7 22%, #CFEAFB 45%, #E8F5FE 68%, #FFFFFF 100%);
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(234, 78, 28, 0.06) 0%, transparent 60%),
+    #FAF8F5;
 }
 
 /* Terminal animation */
