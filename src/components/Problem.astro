@@ -9,46 +9,46 @@ const { lang } = Astro.props;
 
 const icons = [
   `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M11 2L2 7v8l9 5 9-5V7L11 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 12a1 1 0 100-2 1 1 0 000 2zM11 8v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-  `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="3" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 8h16M8 3v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11 13l2 2-2 2M9 15h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M11 7v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="3" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 8h16M8 3v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11 13l2 2-2 2M9 15h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 ];
 
 const content = {
   es: {
-    label: 'El problema',
-    heading: 'La IA se introdujo en las empresas antes de que hubiera control sobre ella.',
-    sub: 'Tres síntomas que reconocerás si ya tienes agentes o automatizaciones con modelos de lenguaje en producción.',
+    label: 'Con quién trabajamos',
+    heading: 'Tres puntos de partida distintos. El mismo problema de fondo.',
+    sub: 'No importa dónde estés hoy con la IA: reconocerás tu empresa en uno de estos tres perfiles.',
     items: [
       {
-        title: 'Pagas por tokens que no controlas.',
-        body: 'El gasto en APIs de IA crece cada mes sin saber qué agente o proceso lo genera. Sin atribución, no hay forma de optimizar ni de justificar el coste ante dirección.',
+        title: 'No sabéis por dónde empezar.',
+        body: 'Ya pagáis tokens que nadie controla del todo y la IA se ha colado en algún proceso, pero sin estrategia ni gobierno desde el día uno. Necesitáis un punto de partida claro.',
       },
       {
-        title: 'El conocimiento de tu empresa se queda en servidores ajenos.',
-        body: 'Cada llamada a un modelo externo lleva contexto de tu negocio fuera de tu infraestructura. Las excepciones, las reglas, los criterios de aprobación: expuestos a sistemas de terceros sin control.',
+        title: 'Tenéis agentes en producción, pero sin control.',
+        body: 'Los agentes ya deciden cosas todos los días. El problema es que nadie puede auditar por qué, ni atribuir qué coste genera cada uno. Os falta trazabilidad y gobernanza.',
       },
       {
-        title: 'Tus agentes deciden. Tú no sabes por qué.',
-        body: 'Sin trazabilidad, es imposible auditar, corregir o mejorar lo que hace un agente. Cuando algo falla, no hay registro. Cuando algo se aprueba mal, nadie puede explicarlo.',
+        title: 'Sabéis lo que queréis, os falta ejecución.',
+        body: 'Tenéis equipo de tecnología propio y un criterio claro de hacia dónde ir. Lo que necesitáis es una mano senior que arquitecture y construya con vosotros, no que os venda una caja negra.',
       },
     ],
   },
   en: {
-    label: 'The problem',
-    heading: 'AI showed up in companies before there was any control over it.',
-    sub: "Three symptoms you'll recognize if you already run agents or LLM-based automation in production.",
+    label: 'Who we work with',
+    heading: 'Three different starting points. The same underlying problem.',
+    sub: "No matter where you are with AI today, you'll recognize your company in one of these three profiles.",
     items: [
       {
-        title: "You're paying for tokens you don't control.",
-        body: "AI API spend grows every month without knowing which agent or process is generating it. Without attribution, there's no way to optimize costs or justify them to leadership.",
+        title: "You don't know where to start.",
+        body: "You're already paying for tokens nobody fully controls, and AI has crept into some process without strategy or governance from day one. You need a clear starting point.",
       },
       {
-        title: "Your company's knowledge sits on someone else's servers.",
-        body: "Every call to an external model carries your business context outside your infrastructure. Exceptions, rules, approval criteria — exposed to third-party systems with no control.",
+        title: 'You have agents in production, but no control.',
+        body: "Your agents already make decisions every day. The problem is no one can audit why, or attribute what each one costs. You're missing traceability and governance.",
       },
       {
-        title: "Your agents decide. You don't know why.",
-        body: "Without traceability, it's impossible to audit, correct, or improve what an agent does. When something fails, there's no record. When something gets approved incorrectly, no one can explain it.",
+        title: "You know what you want, you're missing execution.",
+        body: 'You have your own tech team and a clear sense of direction. What you need is a senior hand to architect and build alongside you — not a black box sold to you.',
       },
     ],
   },
