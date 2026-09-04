@@ -17,7 +17,6 @@ const staticSlugs = [
   { path: '/el-motor', changefreq: 'monthly', priority: 0.6 },
   { path: '/equipo', changefreq: 'monthly', priority: 0.5 },
   { path: '/contacto', changefreq: 'monthly', priority: 0.6 },
-  { path: '/recursos', changefreq: 'daily', priority: 0.7 },
   { path: '/privacidad', changefreq: 'yearly', priority: 0.2 },
 ];
 
@@ -57,6 +56,15 @@ export async function GET({ site }: APIContext) {
     })
   );
 
+  // /recursos solo se incluye para los idiomas que ya tienen algún post
+  // publicado — con la lista vacía, la página devuelve 404 y no debe indexarse.
+  const langsWithPosts = LANGS.filter((lang) => posts.some((p) => p.lang === lang));
+  const recursosEntries = langsWithPosts.map((lang) => {
+    const path = `/${lang}/recursos`;
+    const alternates = langsWithPosts.map((l) => ({ lang: l, path: `/${l}/recursos` }));
+    return renderUrl(SITE_URL, path, buildDate, 'daily', 0.7, alternates);
+  });
+
   const postEntries = posts.map((post) => {
     const path = `/${post.lang}/recursos/${post.slug}`;
     const lastmod = (post.updatedAt ?? post.publishedAt).toISOString();
@@ -73,7 +81,7 @@ export async function GET({ site }: APIContext) {
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${[...staticEntries, ...postEntries].join('\n')}
+${[...staticEntries, ...recursosEntries, ...postEntries].join('\n')}
 </urlset>
 `;
 

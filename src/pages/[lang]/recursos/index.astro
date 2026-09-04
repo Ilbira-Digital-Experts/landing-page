@@ -2,7 +2,7 @@
 export const prerender = false;
 
 import { getPublishedPosts } from '../../../lib/posts';
-import { useUI, type Lang } from '../../../i18n/ui';
+import { type Lang } from '../../../i18n/ui';
 import Layout from '../../../layouts/Layout.astro';
 import Navbar from '../../../components/Navbar.astro';
 import Footer from '../../../components/Footer.astro';
@@ -10,9 +10,12 @@ import SlideInForm from '../../../components/SlideInForm.astro';
 import '../../../styles/global.css';
 
 const lang = Astro.params.lang as Lang;
-const t = useUI(lang);
 
 const posts = await getPublishedPosts(lang);
+
+if (posts.length === 0) {
+  return new Response(null, { status: 404 });
+}
 
 const meta = {
   es: {
@@ -33,10 +36,6 @@ const meta = {
   <Navbar lang={lang} />
   <main class="section-container pt-40 pb-24">
     <h1 class="text-3xl font-semibold text-text-primary mb-10">{meta.heading}</h1>
-
-    {posts.length === 0 && (
-      <p class="text-text-muted">{t.noPosts}</p>
-    )}
 
     <ul class="flex flex-col gap-8">
       {posts.map((post) => (
