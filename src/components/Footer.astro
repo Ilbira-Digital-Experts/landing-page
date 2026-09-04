@@ -52,6 +52,10 @@ const t = useUI(lang);
     <div class="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
       <p class="text-xs text-text-muted">
         © {new Date().getFullYear()} Ilbira. {t.footerRights}
+        {' '}
+        <a href={`/${lang}/carta-de-presentacion`} class="hover:text-text-secondary transition-colors underline decoration-dotted underline-offset-2">
+          {t.coverLetterLink}
+        </a>
       </p>
       <p class="text-xs font-mono text-text-muted">
         ilbirade.com — {t.footerLocation}

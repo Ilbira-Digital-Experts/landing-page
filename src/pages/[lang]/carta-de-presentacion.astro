@@ -1,0 +1,90 @@
+---
+import { langStaticPaths } from '../../i18n/paths';
+import { type Lang } from '../../i18n/ui';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import SlideInForm from '../../components/SlideInForm.astro';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  return langStaticPaths();
+}
+
+const lang = Astro.params.lang as Lang;
+
+const content = {
+  es: {
+    title: 'Carta de presentación — Ilbira',
+    description: 'Cómo trabaja Ilbira: encaje antes que tecnología, framework de madurez de IA propio, seguridad, formación y gobernanza de coste.',
+    eyebrow: 'Carta de presentación',
+    heading: 'Antes de que leas nuestra propuesta, esto es cómo trabajamos.',
+    paragraphs: [
+      'Ilbira es un estudio de arquitectura de agentes de IA formado por profesionales del software. Empezamos siempre por lo mismo: entender tu problema y comprobar que hay encaje real entre nuestra forma de trabajar y la tuya —ritmos, expectativas y estilo—. No implementamos IA porque nos lo pidas; lo hacemos cuando tiene sentido, y te lo decimos igual de claro cuando no lo tiene.',
+      'Trabajamos con un framework de madurez de IA propio, de Nivel 0 a Nivel 6: desde tener una base de datos bien estructurada y gobernada, hasta operar un sistema multiagéntico completo. Cada recomendación que hacemos parte de saber exactamente en qué nivel estás hoy.',
+      'La seguridad de la IA no es negociable. Ponemos límites técnicos basados en el AI Act de la Unión Europea cuando aplica, y nos importa tanto que el sistema funcione como que entiendas exactamente qué hace y por qué.',
+      'No somos revendedores de tokens. Nuestro trabajo es optimizar el coste de tu IA y darte gobernanza real sobre él: saber qué agente o proceso genera cada euro de gasto, y poder justificarlo ante quien haga falta.',
+      'Creemos que muchos problemas se resuelven con formación, no solo con más tecnología —por eso formamos a los equipos que trabajan con nosotros—. Y todo lo que construimos es tuyo: sin cajas negras ni dependencia de Ilbira para operar lo que te entregamos.',
+      'Detrás de esto hay un equipo con más de 48 años de experiencia combinada en ingeniería de software, hoy aplicada a sistemas de IA en producción.',
+      'Si después de leer la propuesta tienes dudas, o simplemente quieres conocernos antes de decidir, reserva una llamada: es gratuita y sin compromiso.',
+    ],
+    signOff: 'Un saludo,',
+    signatureName: 'Fabián Almenara',
+    signatureRole: 'AI Solution Architect — Fundador, Ilbira',
+    cta: 'Reservar una llamada gratuita',
+  },
+  en: {
+    title: 'Letter of introduction — Ilbira',
+    description: "How Ilbira works: fit before technology, our own AI maturity framework, safety, training, and cost governance.",
+    eyebrow: 'Letter of introduction',
+    heading: 'Before you read our proposal, this is how we work.',
+    paragraphs: [
+      "Ilbira is an AI agent architecture studio made up of software professionals. We always start with the same thing: understanding your problem and checking there's a real fit between how we work and how you do — pace, expectations, and style. We don't implement AI just because you ask for it; we do it when it makes sense, and we tell you just as clearly when it doesn't.",
+      "We work with our own AI maturity framework, from Level 0 to Level 6: from having a well-structured, well-governed data foundation, to operating a full multi-agent system. Every recommendation we make starts from knowing exactly what level you're at today.",
+      "AI safety isn't negotiable. We set technical limits based on the EU AI Act where it applies, and we care as much about the system working as about you understanding exactly what it does and why.",
+      "We're not token resellers. Our job is to optimize the cost of your AI and give you real governance over it: knowing which agent or process generates every euro of spend, and being able to justify it to whoever needs it.",
+      "We believe many problems are solved with training, not just more technology — that's why we train the teams we work with. And everything we build is yours: no black boxes, no dependency on Ilbira to operate what we deliver.",
+      'Behind all of this is a team with over 48 years of combined software engineering experience, now applied to production AI systems.',
+      "If you have questions after reading the proposal, or just want to get to know us before deciding, book a call — it's free, no strings attached.",
+    ],
+    signOff: 'Best,',
+    signatureName: 'Fabián Almenara',
+    signatureRole: 'AI Solution Architect — Founder, Ilbira',
+    cta: 'Book a free call',
+  },
+}[lang];
+---
+
+<Layout lang={lang} title={content.title} description={content.description} noindex={true}>
+  <SlideInForm lang={lang} />
+  <Navbar lang={lang} />
+  <main>
+    <section class="pt-40 pb-24">
+      <div class="section-container max-w-2xl">
+        <p class="section-label">{content.eyebrow}</p>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary leading-tight mb-10">
+          {content.heading}
+        </h1>
+
+        <div class="flex flex-col gap-5 text-text-secondary leading-relaxed">
+          {content.paragraphs.map(p => (
+            <p>{p}</p>
+          ))}
+        </div>
+
+        <div class="mt-10 pt-8 border-t border-border">
+          <p class="text-text-secondary mb-1">{content.signOff}</p>
+          <p class="text-text-primary font-semibold">{content.signatureName}</p>
+          <p class="text-sm font-mono text-text-muted">{content.signatureRole}</p>
+        </div>
+
+        <div class="mt-10">
+          <button data-cta="main" class="btn-primary px-6 py-3 text-base">
+            {content.cta}
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} />
+</Layout>
