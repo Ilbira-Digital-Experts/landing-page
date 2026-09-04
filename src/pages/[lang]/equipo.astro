@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { langStaticPaths } from '../../i18n/paths';
 import { type Lang } from '../../i18n/ui';
 import Layout from '../../layouts/Layout.astro';
@@ -6,6 +7,9 @@ import Navbar from '../../components/Navbar.astro';
 import Footer from '../../components/Footer.astro';
 import SlideInForm from '../../components/SlideInForm.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
+import fabianPhoto from '../../assets/team/fabian.png';
+import franPhoto from '../../assets/team/fran.png';
+import tomasPhoto from '../../assets/team/tomas.png';
 import '../../styles/global.css';
 
 export function getStaticPaths() {
@@ -27,18 +31,23 @@ const content = {
         name: 'Fabián Almenara',
         role: 'AI Solution Architect — Fundador',
         bio: 'Fabián no es el mejor programador del mundo —para eso están sus compañeros—. Su labor en Ilbira es estar presente en las tomas de decisiones de arquitectura, la gestión de proyectos y la relación con los clientes.',
+        photo: fabianPhoto,
         link: { href: 'https://fabianalmenara.es', label: 'Más sobre Fabián en fabianalmenara.es' },
       },
       {
         name: 'Fran Beltrán',
         role: 'Senior AI Engineer',
         bio: 'Fran y Fabián llevan mucho tiempo trabajando juntos. Es especialista en ingeniería de software y domina el desarrollo full stack. Desde que estalló la IA, su foco principal está en aplicar esos mismos estándares de calidad a la construcción de aplicaciones basadas en IA.',
+        photo: franPhoto,
+        link: { href: 'https://www.linkedin.com/in/franjbeltran/', label: 'LinkedIn', icon: 'linkedin' },
       },
       { name: 'Aimar Qmega', role: 'AI Developer' },
       {
         name: 'Tomás Giani',
         role: 'Experimentado Data Engineer y ML Engineer',
         bio: 'Tener los datos limpios y ordenados es su motivación diaria. Como le gusta decir: "la IA que hoy todo el mundo conoce no es más que una respuesta probabilística a un conjunto de datos". Los datos son la base de todo lo demás.',
+        photo: tomasPhoto,
+        link: { href: 'https://www.linkedin.com/in/tomas-gianni/', label: 'LinkedIn', icon: 'linkedin' },
       },
     ],
   },
@@ -54,18 +63,23 @@ const content = {
         name: 'Fabián Almenara',
         role: 'AI Solution Architect — Founder',
         bio: "Fabián isn't the best programmer in the world — that's what his colleagues are for. His role at Ilbira is being present in architecture decisions, project management, and client relationships.",
+        photo: fabianPhoto,
         link: { href: 'https://fabianalmenara.es', label: "More about Fabián at fabianalmenara.es" },
       },
       {
         name: 'Fran Beltrán',
         role: 'Senior AI Engineer',
         bio: "Fran and Fabián have worked together for a long time. He specializes in software engineering and is a full-stack expert. Since AI took off, his main focus has been applying that same standard of software quality to building AI-based applications.",
+        photo: franPhoto,
+        link: { href: 'https://www.linkedin.com/in/franjbeltran/', label: 'LinkedIn', icon: 'linkedin' },
       },
       { name: 'Aimar Qmega', role: 'AI Developer' },
       {
         name: 'Tomás Giani',
         role: 'Experienced Data Engineer & ML Engineer',
         bio: 'Keeping data clean and well-organized is his daily motivation. As he likes to say: "the AI everyone knows today is nothing more than a probabilistic response to a dataset." Data is the foundation for everything else.',
+        photo: tomasPhoto,
+        link: { href: 'https://www.linkedin.com/in/tomas-gianni/', label: 'LinkedIn', icon: 'linkedin' },
       },
     ],
   },
@@ -89,9 +103,13 @@ const content = {
                 role="img"
                 aria-label={person.name}
               >
-                <span class="text-lg font-mono text-text-muted" aria-hidden="true">
-                  {person.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                </span>
+                {person.photo ? (
+                  <Image src={person.photo} alt={person.name} width={96} height={96} class="w-full h-full object-cover" />
+                ) : (
+                  <span class="text-lg font-mono text-text-muted" aria-hidden="true">
+                    {person.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                  </span>
+                )}
               </div>
               <h2 class="text-lg font-bold text-text-primary mb-0.5">{person.name}</h2>
               <p class="text-sm font-mono text-text-muted mb-3">{person.role ?? content.pendingRole}</p>
@@ -104,9 +122,15 @@ const content = {
                   class="inline-flex items-center gap-1.5 text-sm font-medium text-text-primary hover:text-accent transition-colors underline underline-offset-4"
                 >
                   {person.link.label}
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  {person.link.icon === 'linkedin' ? (
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.446-2.136 2.94v5.666H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.114 20.452H3.56V9h3.554v11.452z"/>
+                    </svg>
+                  ) : (
+                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  )}
                 </a>
               )}
             </div>
