@@ -148,9 +148,11 @@ const services = [
   window.addEventListener('scroll', update, { passive: true });
   update();
 
+  const BOOKING_URL = 'https://calendar.app.google/EGrDaNfbeRMD2y37A';
+
   document.querySelectorAll('[data-cta="main"]').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.dispatchEvent(new CustomEvent('open-form', { detail: { kind: 'audit' } }));
+      window.open(BOOKING_URL, '_blank', 'noopener,noreferrer');
     });
   });
 
