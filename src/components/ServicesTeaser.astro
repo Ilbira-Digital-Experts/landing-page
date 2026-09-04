@@ -1,84 +1,87 @@
 ---
-import { useUI, type Lang } from '../i18n/ui';
+import { type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
 }
 
 const { lang } = Astro.props;
-const t = useUI(lang);
 
 const content = {
   es: {
-    label: 'Qué hacemos',
-    heading: 'Tres formas de trabajar con nosotros, según dónde estés.',
-    services: [
+    eyebrow: '[ Cuatro áreas ]',
+    heading: 'Dónde actuamos',
+    sub: 'No es un catálogo cerrado de servicios: es cómo solemos intervenir en cada área. Cada pilar agrupa varios servicios.',
+    areas: [
       {
-        title: t.subnav.auditoria,
-        body: 'Diagnóstico corto: qué agentes tienen sentido, cuáles no, y por qué. Sin compromiso.',
-        href: `/${lang}/que-hacemos/auditoria-agentops`,
+        title: 'Data Intelligence',
+        body: 'Diagnóstico del estado de tus datos, arquitectura y analítica: la base sobre la que se sostiene cualquier proyecto de IA.',
       },
       {
-        title: t.subnav.implementacion,
-        body: 'El servicio principal: arquitecturamos, implementamos y auditamos el resultado con datos reales.',
-        href: `/${lang}/que-hacemos/implementacion-de-agentes`,
+        title: 'Seguridad y Cumplimiento de IA',
+        body: 'Cumplimiento del AI Act, diagnóstico de Shadow AI y arquitectura segura para agentes en producción.',
       },
       {
-        title: t.subnav.gestionado,
-        body: 'Una vez en producción, operamos y mejoramos tus agentes de forma continua.',
-        href: `/${lang}/que-hacemos/agentops-gestionado`,
+        title: 'Gobernanza y Control de Coste',
+        body: 'Auditoría, atribución de coste y operación continua. Nada de reventa de tokens: control real del gasto.',
+      },
+      {
+        title: 'Formación',
+        body: 'Formamos lo que construimos: sesiones ejecutivas y programas modulares para que el equipo use IA con criterio real.',
       },
     ],
-    cta: 'Ver todos los servicios',
+    cta: 'Ver servicios',
   },
   en: {
-    label: 'What we do',
-    heading: 'Three ways to work with us, depending on where you are.',
-    services: [
+    eyebrow: '[ Four areas ]',
+    heading: 'Where we work',
+    sub: "It's not a closed service catalog: it's how we usually intervene in each area. Each pillar groups several services.",
+    areas: [
       {
-        title: t.subnav.auditoria,
-        body: "Short diagnostic: which agents make sense, which don't, and why. No commitment.",
-        href: `/${lang}/que-hacemos/auditoria-agentops`,
+        title: 'Data Intelligence',
+        body: 'Diagnosing the state of your data, architecture, and analytics: the foundation any AI project stands on.',
       },
       {
-        title: t.subnav.implementacion,
-        body: 'The core service: we architect, implement, and audit the outcome with real data.',
-        href: `/${lang}/que-hacemos/implementacion-de-agentes`,
+        title: 'AI Security & Compliance',
+        body: 'AI Act compliance, Shadow AI diagnostics, and secure architecture for agents in production.',
       },
       {
-        title: t.subnav.gestionado,
-        body: 'Once in production, we operate and continuously improve your agents.',
-        href: `/${lang}/que-hacemos/agentops-gestionado`,
+        title: 'Governance & Cost Control',
+        body: "Audit, cost attribution, and ongoing operation. No token reselling — real control over your spend.",
+      },
+      {
+        title: 'Training',
+        body: 'We train what we build: executive sessions and modular programs so your team uses AI with real judgment.',
       },
     ],
-    cta: 'See all services',
+    cta: 'See services',
   },
 }[lang];
 ---
 
-<section class="py-24 lg:py-32 bg-white" aria-labelledby="servicios-heading">
+<section class="py-24 lg:py-32 bg-white" aria-labelledby="areas-heading">
   <div class="section-container">
-    <div class="text-center max-w-2xl mx-auto mb-16">
-      <p class="section-label">{content.label}</p>
-      <h2 id="servicios-heading" class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-4">
+    <div class="max-w-2xl mb-16">
+      <p class="section-label">{content.eyebrow}</p>
+      <h2 id="areas-heading" class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-4">
         {content.heading}
       </h2>
+      <p class="text-text-secondary text-base leading-relaxed">{content.sub}</p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-5 mb-10">
-      {content.services.map((s, i) => (
-        <a href={s.href} class="card p-7 flex flex-col gap-4 hover:shadow-md transition-shadow duration-200 group">
-          <span class="text-xs font-mono text-text-muted">{`0${i + 1}`}</span>
-          <h3 class="text-base font-semibold text-text-primary leading-snug group-hover:underline">{s.title}</h3>
-          <p class="text-sm text-text-secondary leading-relaxed flex-1">{s.body}</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {content.areas.map(area => (
+        <a href={`/${lang}/que-hacemos`} class="card p-7 flex flex-col gap-4 hover:shadow-md transition-shadow duration-200 group">
+          <h3 class="text-base font-semibold text-text-primary leading-snug group-hover:underline">{area.title}</h3>
+          <p class="text-sm text-text-secondary leading-relaxed flex-1">{area.body}</p>
+          <span class="text-xs font-medium text-accent inline-flex items-center gap-1">
+            {content.cta}
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M2.5 6h7M6 2.5L9.5 6 6 9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
         </a>
       ))}
-    </div>
-
-    <div class="text-center">
-      <a href={`/${lang}/que-hacemos`} class="btn-ghost px-6 py-3 text-base">
-        {content.cta}
-      </a>
     </div>
   </div>
 </section>
