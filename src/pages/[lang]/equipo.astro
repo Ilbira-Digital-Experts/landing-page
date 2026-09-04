@@ -22,7 +22,7 @@ const lang = Astro.params.lang as Lang;
 // Años en la industria del software de cada miembro con `since` — se suman
 // para la cifra de experiencia combinada, así se mantiene correcta con el tiempo.
 const currentYear = new Date().getFullYear();
-const experienceSince = { fabian: 2009, fran: 2012, tomas: 2017 };
+const experienceSince = { fabian: 2009, fran: 2012, tomas: 2017, juan: 2018 };
 const totalYearsExperience = Object.values(experienceSince).reduce(
   (sum, since) => sum + (currentYear - since),
   0
@@ -55,6 +55,8 @@ const content = {
       },
       {
         name: 'Juan Sánchez',
+        role: 'Senior AI Engineer',
+        bio: 'Juan tiene amplia experiencia como Full Stack, Ingeniero Industrial y en diseño de producto. Cuenta con un Máster en Desarrollo de Software y lleva en la industria desde 2018.',
         photo: juanPhoto,
         link: { href: 'https://www.linkedin.com/in/juan-s%C3%A1nchez-satorres/', label: 'LinkedIn', icon: 'linkedin' },
       },
@@ -93,6 +95,8 @@ const content = {
       },
       {
         name: 'Juan Sánchez',
+        role: 'Senior AI Engineer',
+        bio: "Juan has extensive experience as a Full Stack developer, Industrial Engineer, and in product design. He holds a Master's in Software Development and has been in the industry since 2018.",
         photo: juanPhoto,
         link: { href: 'https://www.linkedin.com/in/juan-s%C3%A1nchez-satorres/', label: 'LinkedIn', icon: 'linkedin' },
       },
