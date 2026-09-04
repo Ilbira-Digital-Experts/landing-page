@@ -18,11 +18,22 @@ export function getStaticPaths() {
 
 const lang = Astro.params.lang as Lang;
 
+// Años en la industria del software de cada miembro con `since` — se suman
+// para la cifra de experiencia combinada, así se mantiene correcta con el tiempo.
+const currentYear = new Date().getFullYear();
+const experienceSince = { fabian: 2009, fran: 2012, tomas: 2017 };
+const totalYearsExperience = Object.values(experienceSince).reduce(
+  (sum, since) => sum + (currentYear - since),
+  0
+);
+
 const content = {
   es: {
     title: 'Equipo — Ilbira',
     description: 'El equipo de Ilbira: arquitectura de agentes de IA con foco en observabilidad y control de coste.',
     eyebrow: 'Equipo',
+    experienceHeading: 'Amplia experiencia en ingeniería de software, aplicada ahora a sistemas de IA en producción.',
+    experienceCaption: 'Años combinados en la industria del software',
     heading: 'Quiénes somos',
     pendingRole: 'Rol pendiente',
     pendingBio: 'Bio pendiente.',
@@ -55,6 +66,8 @@ const content = {
     title: 'Team — Ilbira',
     description: "Ilbira's team: AI agent architecture with a focus on observability and cost control.",
     eyebrow: 'Team',
+    experienceHeading: 'Extensive software engineering experience, now applied to production AI systems.',
+    experienceCaption: 'Combined years in the software industry',
     heading: 'Who we are',
     pendingRole: 'Role pending',
     pendingBio: 'Bio pending.',
@@ -90,10 +103,23 @@ const content = {
   <SlideInForm lang={lang} />
   <Navbar lang={lang} />
   <main>
-    <section class="pt-40 pb-24">
+    <section class="pt-40 pb-16">
       <div class="section-container">
-        <p class="section-label">{content.eyebrow}</p>
-        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-12">{content.heading}</h1>
+        <p class="section-label">[ {content.eyebrow} ]</p>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary leading-tight max-w-2xl mb-10">
+          {content.experienceHeading}
+        </h1>
+        <div class="flex items-baseline gap-1 text-accent">
+          <span class="text-3xl md:text-4xl font-bold">+</span>
+          <span class="text-6xl md:text-7xl font-bold">{totalYearsExperience}</span>
+        </div>
+        <p class="text-text-secondary text-sm md:text-base mt-2">{content.experienceCaption}</p>
+      </div>
+    </section>
+
+    <section class="pb-24">
+      <div class="section-container">
+        <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-text-primary mb-12">{content.heading}</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {content.team.map(person => (
